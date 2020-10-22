@@ -25,7 +25,7 @@
                 <i class="material-icons pr-2">cloud</i>
                 <span>空間使用</span>
             </div>
-            <div class="progress"></div>
+            <custom-progress :percent="percent"/>
             <div class="flex justify-between">
                 <span>30 GB</span>
                 <span>總共可用 300 GB</span>
@@ -39,11 +39,26 @@
 </template>
 
 <script>
+    import Progress from '../../components/Progress'
+
     export default {
         name: "LeftNavBar",
+        components: {
+            'custom-progress': Progress
+        },
+        mounted() {
+
+            this.interval = setInterval(() => {
+
+                if (this.percent > 100) clearInterval(this.interval);
+                else this.percent += 1;
+
+            }, 100);
+        },
         data() {
 
             return {
+                percent: 0,
                 menus: [
                     {
                         icon: 'group',
@@ -110,29 +125,10 @@
 
     .footer {
         width: 100%;
-        padding: 20px 40px 20px 40px ;
-        border-top:2px solid rgba(0,0,0,0.1) ;
+        padding: 20px 40px 20px 40px;
+        border-top: 2px solid rgba(0, 0, 0, 0.1);
     }
 
-    .progress{
-        position: relative;
-        border-radius: 5px;
-        height: 10px;
-        width: 100%;
-        overflow: hidden;
-        border: 1px solid black;
-        margin-bottom: 20px;
-    }
-
-    .progress::before{
-        content:"";
-        position: absolute;
-        left: 0;
-        top:0;
-        height: 10px;
-        width: 70%;
-        background-color: #1fe3e3;
-    }
 
     .menu-item {
         display: flex;
