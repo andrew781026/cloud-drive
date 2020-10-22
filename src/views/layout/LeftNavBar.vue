@@ -7,17 +7,32 @@
                 <i class="material-icons pr-4">cloud</i>
                 <span>我的雲端硬碟</span>
             </div>
-            <div role="button" class="upload-btn mt-8 cursor-pointer">
+            <div role="button" class="upload-btn py-3 mt-4 cursor-pointer">
                 <i class="material-icons pr-4">cloud_upload</i>
                 <span>上傳檔案</span>
             </div>
-            <div class="menu-item-wrapper">
-                <ul>
-                    <li v-for="(menu,index) in menus" class="menu-item" :key="`menu-${index}`">
-                        <i class="material-icons pr-8">{{menu.icon}}</i>
-                        <span>{{menu.name}}</span>
-                    </li>
-                </ul>
+        </div>
+        <div class="content">
+            <ul>
+                <li v-for="(menu,index) in menus" class="menu-item" :key="`menu-${index}`">
+                    <i class="material-icons pr-8">{{menu.icon}}</i>
+                    <span>{{menu.name}}</span>
+                </li>
+            </ul>
+        </div>
+        <div class="footer">
+            <div class="flex h-12">
+                <i class="material-icons pr-2">cloud</i>
+                <span>空間使用</span>
+            </div>
+            <div class="progress"></div>
+            <div class="flex justify-between">
+                <span>30 GB</span>
+                <span>總共可用 300 GB</span>
+            </div>
+            <div role="button" class="upload-btn mt-4 p-3 cursor-pointer" style="width: 50%">
+                <i class="material-icons pr-2">storage</i>
+                <span>Upgrade !</span>
             </div>
         </div>
     </div>
@@ -70,6 +85,10 @@
 
         /* offset-x | offset-y | blur-radius | spread-radius | color */
         box-shadow: 0 2px 20px 3px rgba(0, 0, 0, 0.2);
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     .title {
@@ -79,13 +98,40 @@
         align-items: center;
     }
 
-    .menu-item-wrapper {
+    .content {
         display: flex;
+        flex: 1;
         flex-direction: column;
         width: 100%;
         margin-top: 30px;
         padding-left: 50px;
         color: #443f3f;
+    }
+
+    .footer {
+        width: 100%;
+        padding: 20px 40px 20px 40px ;
+        border-top:2px solid rgba(0,0,0,0.1) ;
+    }
+
+    .progress{
+        position: relative;
+        border-radius: 5px;
+        height: 10px;
+        width: 100%;
+        overflow: hidden;
+        border: 1px solid black;
+        margin-bottom: 20px;
+    }
+
+    .progress::before{
+        content:"";
+        position: absolute;
+        left: 0;
+        top:0;
+        height: 10px;
+        width: 70%;
+        background-color: #1fe3e3;
     }
 
     .menu-item {
@@ -132,7 +178,6 @@
         justify-content: center;
         align-items: center;
         min-width: 70%;
-        padding: 10px;
         border-radius: 10px;
         color: #fff;
         font-weight: 700;
