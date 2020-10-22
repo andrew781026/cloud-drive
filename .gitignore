@@ -13,3 +13,4 @@ package-lock.json
 
 # Editor directories and files
 .idea
+docs/material-design/**/*
