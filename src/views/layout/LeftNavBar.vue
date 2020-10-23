@@ -93,7 +93,8 @@
 <style scoped>
 
     .root {
-        width: 350px;
+        min-width: 300px;
+        max-width: 300px;
         min-height: 100vh;
 
         border-radius: 0 70px 0 0;
