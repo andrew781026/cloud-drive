@@ -79,6 +79,7 @@
     }
 
     .pb-root {
+        margin-top: 20px;
         max-width: calc(100vw - 400px);
     }
 
