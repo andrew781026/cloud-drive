@@ -11,3 +11,4 @@
 ### 在 vue 中設定 tailwind.css
 
 - [Using Tailwind CSS with Vue.js](https://dev.to/lukeocodes/using-tailwind-css-with-vue-js-b1b)
+- [removing-unused-css](https://tailwindcss.com/docs/controlling-file-size#removing-unused-css)
