@@ -22,7 +22,6 @@
         width: 100%;
         overflow: hidden;
         border: 1px solid black;
-        margin-bottom: 20px;
     }
 
     .progress-inner {

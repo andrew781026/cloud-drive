@@ -3,7 +3,7 @@
         <div class="title">
             <img class="avatar" :src="require('@/assets/rufe.png')" alt="rufe">
             <span class="name">魯夫</span>
-            <div role="button" class="action-btn text-blue mt-8 cursor-pointer">
+            <div role="button" class="action-btn text-blue mt-2 cursor-pointer">
                 <i class="material-icons pr-4">cloud</i>
                 <span>我的雲端硬碟</span>
             </div>
@@ -21,7 +21,7 @@
             </ul>
         </div>
         <div class="footer">
-            <div class="flex h-12">
+            <div class="flex h-10">
                 <i class="material-icons pr-2">cloud</i>
                 <span>空間使用</span>
             </div>
@@ -92,9 +92,12 @@
 </script>
 
 <style scoped lang="scss">
+    $titleHeight: 300px;
+    $footerHeight: 180px;
 
     .root {
         min-height: 100vh;
+        max-height: 100vh;
 
         display: flex;
         flex-direction: column;
@@ -140,10 +143,14 @@
     }
 
     .title {
+
+        height: $titleHeight;
         width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
+
+        border-bottom: 2px solid rgba(0, 0, 0, 0.1);
 
         //小平板
         @media (max-width: 759px) {
@@ -157,8 +164,14 @@
         flex: 1;
         flex-direction: column;
         width: 100%;
-        margin-top: 30px;
+        padding-top: 0.8rem;
+        padding-bottom: 0.8rem;
         color: #443f3f;
+
+        min-height: calc(100vh - #{$titleHeight+$footerHeight});
+        max-height: calc(100vh - #{$titleHeight+$footerHeight});
+
+        overflow-y: auto;
 
         //小平板
         @media (max-width: 759px) {
@@ -170,10 +183,11 @@
     }
 
     .footer {
+
+        height: $footerHeight;
         width: 100%;
         padding: 20px 40px 20px 40px;
         border-top: 2px solid rgba(0, 0, 0, 0.1);
-
 
         //小平板
         @media (max-width: 759px) {
@@ -181,7 +195,6 @@
             display: none;
         }
     }
-
 
     .menu-item {
         display: flex;
@@ -197,11 +210,11 @@
             padding-left: 25px;
         }
 
-        &:hover{
+        &:hover {
 
             color: white;
             background-color: #2424ef;
-            border-radius: 0 40px 40px 0 ;
+            border-radius: 0 40px 40px 0;
             margin-right: 30px;
 
             //小平板
@@ -213,8 +226,8 @@
     }
 
     .avatar {
-        margin-top: 40px;
-        margin-bottom: 10px;
+        margin-top: 1.2rem;
+        margin-bottom: 0.2rem;
 
         object-fit: cover;
         height: 100px;
@@ -262,6 +275,11 @@
 
         //小平板
         @media (max-width: 759px) {
+
+            display: none;
+        }
+
+        @media (max-height: 625px) {
 
             display: none;
         }
