@@ -31,7 +31,7 @@
                 <span>/</span>
                 <span>總共可用 300 GB</span>
             </div>
-            <div role="button" class="upload-btn mt-4 p-3 cursor-pointer w-1/2">
+            <div role="button" class="action-btn text-white bg-green mt-4 p-3 cursor-pointer w-1/2">
                 <i class="material-icons pr-2">storage</i>
                 <span>Upgrade !</span>
             </div>
@@ -158,13 +158,10 @@
         flex-direction: column;
         width: 100%;
         margin-top: 30px;
-        padding-left: 50px;
         color: #443f3f;
 
         //小平板
         @media (max-width: 759px) {
-
-            padding-left: 30px;
 
             span {
                 display: none;
@@ -191,6 +188,28 @@
         align-items: center;
         padding-top: 15px;
         padding-bottom: 15px;
+        padding-left: 50px;
+        cursor: pointer;
+
+        //小平板
+        @media (max-width: 759px) {
+
+            padding-left: 25px;
+        }
+
+        &:hover{
+
+            color: white;
+            background-color: #2424ef;
+            border-radius: 0 40px 40px 0 ;
+            margin-right: 30px;
+
+            //小平板
+            @media (max-width: 759px) {
+                border-radius: 0;
+                margin-right: 0;
+            }
+        }
     }
 
     .avatar {
