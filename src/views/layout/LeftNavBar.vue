@@ -3,11 +3,11 @@
         <div class="title">
             <img class="avatar" :src="require('@/assets/rufe.png')" alt="rufe">
             <span class="name">魯夫</span>
-            <div role="button" class="drive-btn mt-8 cursor-pointer">
+            <div role="button" class="action-btn text-blue mt-8 cursor-pointer">
                 <i class="material-icons pr-4">cloud</i>
                 <span>我的雲端硬碟</span>
             </div>
-            <div role="button" class="upload-btn py-3 mt-4 cursor-pointer">
+            <div role="button" class="action-btn text-white bg-green mt-4 cursor-pointer">
                 <i class="material-icons pr-4">cloud_upload</i>
                 <span>上傳檔案</span>
             </div>
@@ -91,21 +91,52 @@
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 
     .root {
-        min-width: 300px;
-        max-width: 300px;
         min-height: 100vh;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: all 0.3s;
+
+        min-width: 300px;
+        width: 300px;
 
         border-radius: 0 70px 0 0;
 
         /* offset-x | offset-y | blur-radius | spread-radius | color */
         box-shadow: 0 2px 20px 3px rgba(0, 0, 0, 0.2);
 
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+        //電腦版
+        @media (min-width: 960px) {
+
+        }
+        //平板
+        @media (max-width: 959px) {
+
+        }
+        //小平板
+        @media (max-width: 759px) {
+
+            border-radius: 0;
+            min-width: 80px;
+            width: 80px;
+
+            position: absolute;
+            left: 0;
+            top: 0;
+            max-height: 100vh;
+            overflow-y: auto;
+            z-index: 10;
+            background-color: #fff;
+        }
+        //手機
+        @media (max-width: 480px) {
+
+        }
+
     }
 
     .title {
@@ -113,6 +144,12 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+
+        //小平板
+        @media (max-width: 759px) {
+
+            border-bottom: 1px solid #9DAEC0;
+        }
     }
 
     .content {
@@ -123,12 +160,29 @@
         margin-top: 30px;
         padding-left: 50px;
         color: #443f3f;
+
+        //小平板
+        @media (max-width: 759px) {
+
+            padding-left: 30px;
+
+            span {
+                display: none;
+            }
+        }
     }
 
     .footer {
         width: 100%;
         padding: 20px 40px 20px 40px;
         border-top: 2px solid rgba(0, 0, 0, 0.1);
+
+
+        //小平板
+        @media (max-width: 759px) {
+
+            display: none;
+        }
     }
 
 
@@ -150,38 +204,60 @@
 
         /* offset-x | offset-y | blur-radius | spread-radius | color */
         box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.4);
+
+        transition: all 0.3s;
+
+        //小平板
+        @media (max-width: 759px) {
+
+            margin-top: 20px;
+            height: 60px;
+            width: 60px;
+        }
     }
 
     .name {
         font-size: 26px;
         font-weight: 900;
+
+        //小平板
+        @media (max-width: 759px) {
+
+            display: none;
+        }
     }
 
-    .drive-btn {
+    .action-btn {
+
         display: flex;
         justify-content: center;
         align-items: center;
         min-width: 70%;
-        padding: 10px;
+        padding: 0.8rem;
         border-radius: 10px;
+        font-weight: 700;
         color: #2424ef;
-        font-weight: 700;
 
         /* offset-x | offset-y | blur-radius | spread-radius | color */
         box-shadow: 0 4px 7px 1px rgba(0, 0, 0, 0.4);
+
+        //小平板
+        @media (max-width: 759px) {
+
+            display: none;
+        }
     }
 
-    .upload-btn {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-width: 70%;
-        border-radius: 10px;
+    .text-blue {
+        color: #2424ef;
+    }
+
+    .text-white {
         color: #fff;
-        font-weight: 700;
-        background-color: #128d3f;
-
-        /* offset-x | offset-y | blur-radius | spread-radius | color */
-        box-shadow: 0 4px 7px 1px rgba(0, 0, 0, 0.4);
     }
+
+    .bg-green {
+        background-color: #128d3f;
+    }
+
 </style>
