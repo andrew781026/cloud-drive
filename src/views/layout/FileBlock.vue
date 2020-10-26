@@ -5,7 +5,11 @@
     </div>
     <div class="flex pl-10 flex-wrap">
         <template v-for="(file,index) in files" :key="`file-${index}`">
-            <div class="folder-wrapper">
+            <div class="folder-wrapper"
+                 :class="[ index === activeFolderIndex && 'active' ]"
+                 :title="file.name"
+                 @click="toggleFolder(index)"
+            >
                 <img :src="require('@/assets/word.svg')" width="70" v-if="file.icon === 'word'">
                 <img :src="require('@/assets/excel.svg')" width="70" v-else-if="file.icon === 'excel'">
                 <i class="material-icons" v-else>{{file.icon}}</i>
@@ -20,6 +24,12 @@
 <script>
     export default {
         name: "FileBlock.vue",
+        methods: {
+            toggleFolder(index) {
+
+                this.activeFolderIndex = index;
+            }
+        },
         data() {
 
             return {
@@ -66,7 +76,14 @@
     }
 
     .folder-wrapper:active {
-        outline: 1px solid black;
+        /* offset-x | offset-y | blur-radius | spread-radius | color */
+        box-shadow: 0 4px 10px 2px rgba(0, 0, 0, 0.2);
+        transform: translate(0,-2px);
+    }
+
+    .folder-wrapper.active {
+        border: 1px solid black;
+        background-color: #E8F0FE;
     }
 
     .folder-name {

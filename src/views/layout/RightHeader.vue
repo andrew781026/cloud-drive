@@ -1,7 +1,7 @@
 <template>
     <div class="flex justify-end m-6">
         <span>搜尋檔案</span>
-        <div class="relative">
+        <div class="relative" title="搜尋檔案">
             <i class="material-icons search-bar-icon">search</i>
             <input type="text" class="search-bar">
         </div>
@@ -18,6 +18,13 @@
 </script>
 
 <style scoped>
+
+    @media (max-width: 767px) {
+
+        span{
+            display: none;
+        }
+    }
 
     .search-bar-icon {
         position: absolute;

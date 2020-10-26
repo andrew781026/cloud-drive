@@ -5,7 +5,11 @@
     </div>
     <div class="flex pl-10 py-8 flex-wrap">
         <template v-for="(folder,index) in folders" :key="`folder-${index}`">
-            <div class="folder-wrapper" @click="toggleFolder(index)">
+            <div class="folder-wrapper"
+                 :class="[ index === activeFolderIndex && 'active' ]"
+                 :title="folder.name"
+                 @click="toggleFolder(index)"
+            >
                 <i class="material-icons pr-2">{{folder.icon}}</i>
                 <div class="folder-name" style="width: 120px">
                     <span>{{folder.name}}</span>
@@ -85,7 +89,14 @@
     }
 
     .folder-wrapper:active {
-        outline: 1px solid black;
+        /* offset-x | offset-y | blur-radius | spread-radius | color */
+        box-shadow: 0 4px 14px 3px rgba(0, 0, 0, 0.4);
+        transform: translate(0,-2px);
+    }
+
+    .folder-wrapper.active {
+        background-color: #E8F0FE;
+        color: #2E75D6;
     }
 
     .folder-name {

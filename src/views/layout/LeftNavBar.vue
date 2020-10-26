@@ -28,9 +28,10 @@
             <custom-progress :percent="percent"/>
             <div class="flex justify-between">
                 <span>30 GB</span>
+                <span>/</span>
                 <span>總共可用 300 GB</span>
             </div>
-            <div role="button" class="upload-btn mt-4 p-3 cursor-pointer" style="width: 50%">
+            <div role="button" class="upload-btn mt-4 p-3 cursor-pointer w-1/2">
                 <i class="material-icons pr-2">storage</i>
                 <span>Upgrade !</span>
             </div>

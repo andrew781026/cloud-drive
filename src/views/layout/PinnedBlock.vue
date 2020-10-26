@@ -6,7 +6,7 @@
         </div>
         <div class="flex pl-10 flex-wrap">
             <template v-for="(pinF,index) in pinnedFolders" :key="`pinnedFolder-${index}`">
-                <div class="folder-wrapper" @click="toggleFolder(index)">
+                <div class="folder-wrapper" :title="pinF.name" @click="toggleFolder(index)">
                     <i class="material-icons folder" :class="[ index === activeFolderIndex && 'active' ]">folder</i>
                     <div class="folder-name" style="width: 140px">
                         <span>{{pinF.name}}</span>
@@ -68,7 +68,9 @@
     }
 
     .folder-wrapper:active {
-        outline: 1px solid black;
+        /* offset-x | offset-y | blur-radius | spread-radius | color */
+        box-shadow: 0 4px 10px 2px rgba(0, 0, 0, 0.2);
+        transform: translate(0,-2px);
     }
 
     .folder-name {
@@ -81,6 +83,8 @@
     .pb-root {
         margin-top: 20px;
         max-width: calc(100vw - 400px);
+        max-height: 270px;
+        overflow-y: hidden;
     }
 
     .folder {
