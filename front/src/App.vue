@@ -6,7 +6,9 @@
     </div>
 </template>
 
-<style>
+<style lang="scss">
+    @import "./assets/styles/button-theme.scss";
+
     #app {
         font-family: '微軟正黑體', Helvetica, Arial, sans-serif;
         -webkit-font-smoothing: antialiased;

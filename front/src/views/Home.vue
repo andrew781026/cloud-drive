@@ -1,6 +1,5 @@
 <template>
     <div class="root flex">
-        <button_styling/>
         <left_nav_bar/>
         <div class="flex flex-col w-full max-h-screen">
             <right_header/>
@@ -21,7 +20,6 @@
     import PinnedBlock from "./layout/PinnedBlock";
     import FolderBlock from "./layout/FolderBlock";
     import FileBlock from "./layout/FileBlock";
-    import ButtonStyling from "../components/ButtonStyling";
 
     export default {
         name: 'Home',
@@ -32,7 +30,6 @@
             'pin_block': PinnedBlock,
             'folder_block': FolderBlock,
             'file_block': FileBlock,
-            'button_styling': ButtonStyling,
         }
     }
 </script>
