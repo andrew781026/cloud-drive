@@ -3,14 +3,14 @@
         <div class="title">
             <img class="avatar" :src="require('@/assets/rufe.png')" alt="rufe">
             <span class="name">魯夫</span>
-            <div role="button" class="action-btn text-blue mt-2 cursor-pointer">
-                <i class="material-icons pr-4">cloud</i>
+            <button class="btn btn-blue font-700 mt-2 w-3/4 text-lg">
+                <i class="material-icons pr-2">cloud</i>
                 <span>我的雲端硬碟</span>
-            </div>
-            <div role="button" class="action-btn text-white bg-green mt-4 cursor-pointer">
-                <i class="material-icons pr-4">cloud_upload</i>
+            </button>
+            <button class="btn btn-green font-700 mt-4 w-3/4 text-lg">
+                <i class="material-icons pr-2">cloud_upload</i>
                 <span>上傳檔案</span>
-            </div>
+            </button>
         </div>
         <div class="content py-4">
             <ul>
@@ -31,10 +31,10 @@
                 <span>/</span>
                 <span>總共可用 300 GB</span>
             </div>
-            <div role="button" class="action-btn text-white bg-green mt-4 p-3 cursor-pointer w-1/2">
+            <button class="btn btn-green font-700 text-lg w-3/4 mt-4">
                 <i class="material-icons pr-2">storage</i>
                 <span>Upgrade !</span>
-            </div>
+            </button>
         </div>
     </div>
 </template>
@@ -94,6 +94,10 @@
 <style scoped lang="scss">
     $titleHeight: 300px;
     $footerHeight: 180px;
+
+    .font-700{
+        font-weight: 700;
+    }
 
     .root {
         min-height: 100vh;
