@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: Build-Github-Page
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
@@ -24,6 +24,10 @@ jobs:
 
       # install node.js
       - uses: actions/setup-node@v1
+
+      # Runs a single command using the runners shell
+      - name: change current directory
+        run: cd front
 
       # Runs a single command using the runners shell
       - name: install dependencies

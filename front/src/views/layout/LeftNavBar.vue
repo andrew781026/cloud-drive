@@ -12,7 +12,7 @@
                 <span>上傳檔案</span>
             </div>
         </div>
-        <div class="content">
+        <div class="content py-4">
             <ul>
                 <li v-for="(menu,index) in menus" class="menu-item" :key="`menu-${index}`">
                     <i class="material-icons pr-8">{{menu.icon}}</i>
@@ -164,8 +164,6 @@
         flex: 1;
         flex-direction: column;
         width: 100%;
-        padding-top: 0.8rem;
-        padding-bottom: 0.8rem;
         color: #443f3f;
 
         min-height: calc(100vh - #{$titleHeight+$footerHeight});
@@ -279,10 +277,12 @@
             display: none;
         }
 
+        /*
         @media (max-height: 625px) {
 
             display: none;
         }
+         */
     }
 
     .text-blue {

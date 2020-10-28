@@ -4,6 +4,16 @@
 
 ## [Demo Page](https://andrew781026.github.io/cloud-drive/)
 
+
+
+### 待完成功能
+
+- 上傳檔案 & 下載檔案
+- 右鍵 popUp 選單
+- 利用 Node.JS 製作 File Explorer 
+  - Server 版 ( 先在 Windows 上測試一下，可以練一下 GraphQL )
+  - Local 版
+
 ### 設計師設計
 
 - [第八關(雲端硬碟)](https://challenge.thef2e.com/user/1520?schedule=4252#works-4252)
