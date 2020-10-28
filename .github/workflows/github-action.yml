@@ -26,20 +26,16 @@ jobs:
       - uses: actions/setup-node@v1
 
       # Runs a single command using the runners shell
-      - name: change current directory
-        run: cd front
-
-      # Runs a single command using the runners shell
       - name: install dependencies
-        run: npm install
+        run: cd front && npm install
 
       # Runs a single command using the runners shell
       - name: try to build the project
-        run: npm run build
+        run: cd front && npm run build
 
       # use actions-gh-pages to deploy dist to gh-pages
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          publish_dir: ./front/dist
