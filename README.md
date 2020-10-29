@@ -6,6 +6,13 @@
 
 [![](https://i.imgur.com/71TFc5P.png)](https://andrew781026.github.io/cloud-drive/)
 
+## 使用技術
+
+- graphQL
+- vue / vuex / vue-router
+- scss 
+- node.js
+
 ### 待完成功能
 
 - 可能需要切換列表模式 ( List Mode ) 跟 九宮格模式 ( Grid Mode )
