@@ -11,7 +11,7 @@ const fs = require('fs');
 const path = require('path');
 
 // 取得某資料夾中所有的檔案列表
-const listAllFileInTargetDirectory = directory => {
+const listFileInTargetDirectory = directory => {
 
     // 參考資料 : https://stackabuse.com/node-list-files-in-a-directory/
     return fs.readdirSync(directory).map(file => {
@@ -32,5 +32,5 @@ const listAllFileInTargetDirectory = directory => {
 };
 
 module.exports = {
-    listAllFileInTargetDirectory,
+    listFileInTargetDirectory,
 };
