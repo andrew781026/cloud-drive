@@ -4,10 +4,11 @@
 
 ## [Demo Page](https://andrew781026.github.io/cloud-drive/)
 
-
+[![](https://i.imgur.com/71TFc5P.png)](https://andrew781026.github.io/cloud-drive/)
 
 ### 待完成功能
 
+- 可能需要切換列表模式 ( List Mode ) 跟 九宮格模式 ( Grid Mode )
 - 上傳檔案 & 下載檔案
 - 右鍵 popUp 選單
 - 利用 Node.JS 製作 File Explorer 
