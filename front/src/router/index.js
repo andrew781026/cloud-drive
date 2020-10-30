@@ -10,8 +10,7 @@ const routes = [
     component: () => import('../views/Home.vue')
   },
   {
-    // path: "*",
-    path: "/:catchAll(.*)",
+    path: "*",
     redirect: {name: 'Home'}
   },
 ]
