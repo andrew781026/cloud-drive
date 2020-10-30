@@ -5,7 +5,7 @@ import ApolloClient from 'apollo-boost'
 
 const apolloClient = new ApolloClient({
     // You should use an absolute URL here
-    uri: 'https://api.graphcms.com/simple/v1/awesomeTalksClone'
+    uri: 'http://localhost:4000/'
 })
 
 // Install the plugin into Vue

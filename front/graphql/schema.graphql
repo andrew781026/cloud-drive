@@ -12,6 +12,7 @@ type File {
     isSymbolicLink: Boolean
     modifyTime: Date
     name: String
+    "size的單位：bytes"
     size: Int
 }
 
@@ -23,6 +24,7 @@ type Mutation {
 type Query {
     "取得資料夾檔案內容"
     files(directory: String): [File]
+    hello: String
 }
 
 enum CacheControlScope {

@@ -23,7 +23,8 @@ const typeDefs = gql`
     # Query 定義
     type Query {
         "取得資料夾檔案內容"
-        files(directory: String): [File]
+        files(directory: String): [File],
+        hello:String
     }
 
     # Mutation 定義
@@ -39,6 +40,9 @@ const FileUtils = require('./utils/fileUtils');
 // schema. This resolver retrieves books from the "books" array above.
 const resolvers = {
     Query: {
+        hello (root, args, context) {
+            return 'Hello world!'
+        },
         files: (root, args, context) => {
 
             const {directory} = args;
