@@ -1,23 +1,26 @@
 <template>
-    <div class="flex items-center pl-8">
-        <i class="material-icons pr-2">library_books</i>
-        <span>文件</span>
-    </div>
-    <div class="flex pl-10 flex-wrap">
-        <template v-for="(file,index) in files" :key="`file-${index}`">
-            <div class="folder-wrapper"
-                 :class="[ index === activeFolderIndex && 'active' ]"
-                 :title="file.name"
-                 @click="toggleFolder(index)"
-            >
-                <img :src="require('@/assets/word.svg')" width="70" v-if="file.icon === 'word'">
-                <img :src="require('@/assets/excel.svg')" width="70" v-else-if="file.icon === 'excel'">
-                <i class="material-icons" v-else>{{file.icon}}</i>
-                <div class="folder-name pt-1">
-                    <span>{{file.name}}</span>
+    <div>
+        <div class="flex items-center pl-8">
+            <i class="material-icons pr-2">library_books</i>
+            <span>文件</span>
+        </div>
+        <div class="flex pl-10 flex-wrap">
+            <template v-for="(file,index) in files" >
+                <div class="folder-wrapper"
+                     :class="[ index === activeFolderIndex && 'active' ]"
+                     :key="`file-${index}`"
+                     :title="file.name"
+                     @click="toggleFolder(index)"
+                >
+                    <img :src="require('@/assets/word.svg')" width="70" v-if="file.icon === 'word'">
+                    <img :src="require('@/assets/excel.svg')" width="70" v-else-if="file.icon === 'excel'">
+                    <i class="material-icons" v-else>{{file.icon}}</i>
+                    <div class="folder-name pt-1">
+                        <span>{{file.name}}</span>
+                    </div>
                 </div>
-            </div>
-        </template>
+            </template>
+        </div>
     </div>
 </template>
 

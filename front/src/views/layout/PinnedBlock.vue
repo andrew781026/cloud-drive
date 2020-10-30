@@ -5,8 +5,12 @@
             <span>已固定</span>
         </div>
         <div class="flex pl-10 flex-wrap">
-            <template v-for="(pinF,index) in pinnedFolders" :key="`pinnedFolder-${index}`">
-                <div class="folder-wrapper" :title="pinF.name" @click="toggleFolder(index)">
+            <template v-for="(pinF,index) in pinnedFolders">
+                <div class="folder-wrapper"
+                     :title="pinF.name"
+                     @click="toggleFolder(index)"
+                     :key="`pinnedFolder-${index}`"
+                >
                     <i class="material-icons folder" :class="[ index === activeFolderIndex && 'active' ]">folder</i>
                     <div class="folder-name" style="width: 140px">
                         <span>{{pinF.name}}</span>
@@ -70,7 +74,7 @@
     .folder-wrapper:active {
         /* offset-x | offset-y | blur-radius | spread-radius | color */
         box-shadow: 0 4px 10px 2px rgba(0, 0, 0, 0.2);
-        transform: translate(0,-2px);
+        transform: translate(0, -2px);
     }
 
     .folder-name {

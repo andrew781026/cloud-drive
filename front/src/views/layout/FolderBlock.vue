@@ -1,21 +1,24 @@
 <template>
-    <div class="flex items-center pl-8">
-        <i class="material-icons pr-2">folder</i>
-        <span>檔案</span>
-    </div>
-    <div class="flex pl-10 py-8 flex-wrap">
-        <template v-for="(folder,index) in folders" :key="`folder-${index}`">
-            <div class="folder-wrapper"
-                 :class="[ index === activeFolderIndex && 'active' ]"
-                 :title="folder.name"
-                 @click="toggleFolder(index)"
-            >
-                <i class="material-icons pr-2">{{folder.icon}}</i>
-                <div class="folder-name" style="width: 120px">
-                    <span>{{folder.name}}</span>
+    <div>
+        <div class="flex items-center pl-8">
+            <i class="material-icons pr-2">folder</i>
+            <span>檔案</span>
+        </div>
+        <div class="flex pl-10 py-8 flex-wrap">
+            <template v-for="(folder,index) in folders">
+                <div class="folder-wrapper"
+                     :class="[ index === activeFolderIndex && 'active' ]"
+                     :key="`folder-${index}`"
+                     :title="folder.name"
+                     @click="toggleFolder(index)"
+                >
+                    <i class="material-icons pr-2">{{folder.icon}}</i>
+                    <div class="folder-name" style="width: 120px">
+                        <span>{{folder.name}}</span>
+                    </div>
                 </div>
-            </div>
-        </template>
+            </template>
+        </div>
     </div>
 </template>
 
@@ -91,7 +94,7 @@
     .folder-wrapper:active {
         /* offset-x | offset-y | blur-radius | spread-radius | color */
         box-shadow: 0 4px 14px 3px rgba(0, 0, 0, 0.4);
-        transform: translate(0,-2px);
+        transform: translate(0, -2px);
     }
 
     .folder-wrapper.active {

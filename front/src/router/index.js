@@ -1,11 +1,13 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
-import Home from '../views/Home.vue'
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+
+Vue.use(VueRouter);
 
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: () => import('../views/Home.vue')
   },
   {
     // path: "*",
@@ -14,9 +16,10 @@ const routes = [
   },
 ]
 
-const router = createRouter({
-  history: createWebHashHistory(),
-  routes
-})
+const router = new VueRouter({
+  mode: 'history',
+  scrollBehavior: () => ({y: 0}),
+  routes,
+});
 
-export default router
+export default router;
