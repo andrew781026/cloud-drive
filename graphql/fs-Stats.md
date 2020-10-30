@@ -31,7 +31,7 @@ Stats {
 | uid     | 拥有该文件（POSIX）的用户的数字型用户标识符。  | bigint |
 | gid     | 拥有该文件（POSIX）的群组的数字型群组标识符。  | bigint |
 | rdev     | 如果文件表示一个设备，则此值为数字型设备标识符。  | bigint |
-| size     | 檔案大小     | bigint |
+| size     | 檔案大小 ( bytes ) | bigint |
 | blksize     | 磁碟大小     | bigint |
 | blocks     | 为此文件分配的块数。     | bigint |
 | atimeMs     | 最後讀取時間 (Timestamp)   | bigint |

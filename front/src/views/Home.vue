@@ -20,6 +20,7 @@
     import PinnedBlock from "./layout/PinnedBlock";
     import FolderBlock from "./layout/FolderBlock";
     import FileBlock from "./layout/FileBlock";
+    import FileService from "../graphql/service/file";
 
     export default {
         name: 'Home',
@@ -30,6 +31,12 @@
             'pin_block': PinnedBlock,
             'folder_block': FolderBlock,
             'file_block': FileBlock,
+        },
+        mounted() {
+
+            FileService.listFiles('D:/ezoom/thaitown-call-system/front/src')
+                .then(console.log)
+                .catch(console.error)
         }
     }
 </script>

@@ -1,0 +1,37 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type File {
+    createTime: Date
+    isDirectory: Boolean
+    isFile: Boolean
+    isSymbolicLink: Boolean
+    modifyTime: Date
+    name: String
+    size: Int
+}
+
+type Mutation {
+    "新增檔案"
+    addFile(base64String: String, filePath: String): String
+}
+
+type Query {
+    "取得資料夾檔案內容"
+    files(directory: String): [File]
+}
+
+enum CacheControlScope {
+    PRIVATE
+    PUBLIC
+}
+
+
+scalar Date
+
+"The `Upload` scalar type represents a file upload."
+scalar Upload

@@ -1,6 +1,5 @@
 // ref - https://www.apollographql.com/docs/apollo-server/getting-started/
 const {ApolloServer, gql} = require('apollo-server');
-const fs = require('fs');
 
 // A schema is a collection of type definitions (hence "typeDefs")
 // that together define the "shape" of queries that are executed against
@@ -12,6 +11,7 @@ const typeDefs = gql`
     # This "Book" type defines the queryable fields for every book in our data source.
     type File {
         name:String,
+        "size的單位：bytes"
         size:Int,
         createTime:Date,
         modifyTime: Date,
@@ -33,7 +33,7 @@ const typeDefs = gql`
     }
 `;
 
-const {listFileInTargetDirectory} = require('./utils/fileUtils');
+const FileUtils = require('./utils/fileUtils');
 
 // Resolvers define the technique for fetching the types defined in the
 // schema. This resolver retrieves books from the "books" array above.
@@ -44,7 +44,7 @@ const resolvers = {
             const {directory} = args;
 
             console.log(directory);
-            return listFileInTargetDirectory(directory);
+            return FileUtils.listFiles(directory);
         },
     },
     Mutation: {
@@ -52,10 +52,7 @@ const resolvers = {
 
             const {filePath, base64String} = args;
 
-            // Remove header
-            let data = base64String.split(';base64,').pop();
-
-            fs.writeFileSync(filePath, data, {encoding: 'base64'});
+            FileUtils.saveToLocalFile({filePath, base64String});
 
             return 'success'
         },

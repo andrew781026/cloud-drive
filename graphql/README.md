@@ -14,6 +14,13 @@
 
 ![](https://i.imgur.com/r0LEloz.png)
 
+### 修改檔案屬性
+
+- [node實現檔案屬性批量修改(時間屬性)](https://iter01.com/511800.html)
+
+### 上傳大檔案
+
+- [An example of large file upload based on Node.js](https://developpaper.com/an-example-of-large-file-upload-based-on-node-js/)
 
 ### GraphQL 學習 
 
