@@ -23,6 +23,7 @@ const statsFormatter = ({stats, name}) => ({
     isSymbolicLink: stats.isSymbolicLink(),   // 是否為捷徑
 })
 
+// 取得檔案資訊
 const getFileInfo = filePath => {
 
     const stats = fs.lstatSync(filePath);
