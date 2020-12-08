@@ -1,9 +1,11 @@
 import express from 'express';
+import bodyParser from 'body-parser';
 
 const app = express();
 const port = process.argv[2] || 3011;
 
 // let json can come in
+app.use(bodyParser.json({limit: '100mb'})); // parse to json : req.body
 
 // allow CORS
 app.use(function (req, res, next) {
@@ -22,11 +24,6 @@ app.use(function (req, res, next) {
 });
 
 app.use('/static', express.static(__dirname + '/public'));
-
-app.get('/',(req,res)=>{
-
-    res.json('Good')
-})
 
 // api routes
 app.use('/file', require('./routes/files'));

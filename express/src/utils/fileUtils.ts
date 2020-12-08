@@ -70,7 +70,7 @@ const saveBase64Str = (filePath, base64Str) => {
 
 const saveByteArray = ({filePath, byteArray}) => {
 
-    return fs.writeFileSync('message.txt', byteArray);
+    return fs.writeFileSync(filePath, byteArray);
 }
 
 const saveToLocalFile = ({filePath, base64Str}) => {

@@ -5,22 +5,30 @@
     <title>Title</title>
 </head>
 <body>
-<input type="file" id="files" multiple="multiple" /><br><br>
+<input type="file" id="files" multiple="multiple"/><br><br>
 <button onclick="upload()">上傳檔案</button>
+
 
 <script>
 
+    /**
+     * 參考資料 : https://joji.me/zh-cn/blog/processing-huge-files-using-filereader-readasarraybuffer-in-web-browser/
+     *          https://medium.com/@vecera.petr/how-to-handle-large-file-upload-with-nodejs-express-server-7de9ab3f7af1
+     *
+     * */
     function upload() {
 
         let file = document.getElementById('files').files[0];
-        let fr = new FileReader();
+        let reader = new FileReader();
         let CHUNK_SIZE = 10 * 1024;
         let startTime, endTime;
         let reverse = false;
 
-        fr.onload = function () {
-            let buffer = new Uint8Array(fr.result);
-            console.log(buffer);
+        reader.onload = function () {
+            let buffer = new Uint8Array(reader.result);
+
+            // send the buffer to api server
+            sendTypedArray(buffer);
 
             let timeReg = /\d{4}\-\d{2}\-\d{2} \d{2}:\d{2}:\d{2}/; // format : YYYY-MM-DD HH:mm:ss
             for (let i = reverse ? buffer.length - 1 : 0; reverse ? i > -1 : i < buffer.length; reverse ? i-- : i++) {
@@ -42,11 +50,32 @@
         }
         seek();
 
+        function sendTypedArray(typedArray) {
+
+            fetch('http://localhost:3011/file/upload/bytes', {
+                body: JSON.stringify({bytes: typedArray}), // must match 'Content-Type' header
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: 'same-origin', // include, same-origin, *omit
+                headers: {
+                    'user-agent': 'Mozilla/4.0 MDN Example',
+                    'content-type': 'application/json'
+                },
+                method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                mode: 'cors', // no-cors, cors, *same-origin
+                // redirect: 'follow', // manual, *follow, error
+                // referrer: 'no-referrer', // *client, no-referrer
+            })
+                .then(console.log)
+                .catch(console.error);
+        }
+
         function seek() {
             let start = reverse ? file.size - CHUNK_SIZE : 0;
             let end = reverse ? file.size : CHUNK_SIZE;
+
+            // cutting big files to small chunks
             let slice = file.slice(start, end);
-            fr.readAsArrayBuffer(slice);
+            reader.readAsArrayBuffer(slice);
         }
     }
 </script>

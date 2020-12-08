@@ -17,8 +17,21 @@ router.get('/', (req, res) => {
   `);
 });
 
+router.post('/upload/bytes', (req, res, next) => {
+    const {bytes} = req.body
+
+    console.log('bytes=', bytes);
+
+    const fs = require('fs');
+
+    const byteArray = Uint8Array.from(Object.values(bytes))
+    fs.writeFileSync('./data.txt', byteArray, 'utf8');
+
+    res.json({bytes})
+});
+
 router.post('/upload', (req, res, next) => {
-    const form = formidable({ multiples: true });
+    const form = formidable({multiples: true});
 
     // get the upload files
     form.parse(req, (err, fields, files) => {
@@ -26,8 +39,9 @@ router.post('/upload', (req, res, next) => {
             next(err);
             return;
         }
-        res.json({ fields, files });
+        res.json({fields, files});
     });
 });
+
 
 module.exports = router;
