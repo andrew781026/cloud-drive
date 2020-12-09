@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" href="data-storage.ico">
     <title>Title</title>
 </head>
 <body>
@@ -14,7 +15,6 @@
     /**
      * 參考資料 : https://joji.me/zh-cn/blog/processing-huge-files-using-filereader-readasarraybuffer-in-web-browser/
      *          https://medium.com/@vecera.petr/how-to-handle-large-file-upload-with-nodejs-express-server-7de9ab3f7af1
-     *
      * */
     function upload() {
 
@@ -69,6 +69,7 @@
                 .catch(console.error);
         }
 
+        // 切分好幾塊 , 然後最後把檔案 merge 起來
         function seek() {
             let start = reverse ? file.size - CHUNK_SIZE : 0;
             let end = reverse ? file.size : CHUNK_SIZE;
