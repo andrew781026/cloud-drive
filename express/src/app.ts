@@ -25,6 +25,11 @@ app.use(function (req, res, next) {
 
 app.use('/static', express.static(__dirname + '/public'));
 
+app.get('/',(req,res)=>{
+
+    res.redirect('/static/');
+})
+
 // api routes
 app.use('/file', require('./routes/files'));
 app.use('/video', require('./routes/video'));

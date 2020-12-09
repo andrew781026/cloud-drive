@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="icon" href="data-storage.ico">
-    <title>Title</title>
+    <title>分塊上傳檔案</title>
 </head>
 <body>
 <input type="file" id="files" multiple="multiple"/><br><br>
@@ -21,39 +21,29 @@
         let file = document.getElementById('files').files[0];
         let reader = new FileReader();
         let CHUNK_SIZE = 10 * 1024;
-        let startTime, endTime;
-        let reverse = false;
+        let processTimes = 0;
 
-        reader.onload = function () {
-            let buffer = new Uint8Array(reader.result);
+        reader.onload = function (fileReader) {
+            let buffer = new Uint8Array(fileReader.result);
+
+            console.log('file=', file)
 
             // send the buffer to api server
-            sendTypedArray(buffer);
-
-            let timeReg = /\d{4}\-\d{2}\-\d{2} \d{2}:\d{2}:\d{2}/; // format : YYYY-MM-DD HH:mm:ss
-            for (let i = reverse ? buffer.length - 1 : 0; reverse ? i > -1 : i < buffer.length; reverse ? i-- : i++) {
-                if (buffer[i] === 10) {
-                    let snippet = new TextDecoder('utf-8').decode(buffer.slice(i + 1, i + 20));
-                    if (timeReg.exec(snippet)) {
-                        if (!reverse) {
-                            startTime = snippet;
-                            reverse = true;
-                            seek();
-                        } else {
-                            endTime = snippet;
-                            alert(`Log time range: ${startTime} ~ ${endTime}`);
-                        }
-                        break;
-                    }
-                }
-            }
+            sendTypedArray(buffer, file.name);
         }
+
+        reader.onloadend = function (fileReader) {
+            console.log('onloadend 🚀');
+            console.log(fileReader);
+            if (++processTimes < 3) seek();
+        }
+
         seek();
 
-        function sendTypedArray(typedArray) {
+        function sendTypedArray(typedArray, fileName) {
 
             fetch('http://localhost:3011/file/upload/bytes', {
-                body: JSON.stringify({bytes: typedArray}), // must match 'Content-Type' header
+                body: JSON.stringify({bytes: typedArray, fileName}), // must match 'Content-Type' header
                 cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
                 credentials: 'same-origin', // include, same-origin, *omit
                 headers: {
@@ -65,14 +55,16 @@
                 // redirect: 'follow', // manual, *follow, error
                 // referrer: 'no-referrer', // *client, no-referrer
             })
-                .then(console.log)
-                .catch(console.error);
+            // .then(console.log)
+            // .catch(console.error);
         }
 
         // 切分好幾塊 , 然後最後把檔案 merge 起來
         function seek() {
-            let start = reverse ? file.size - CHUNK_SIZE : 0;
-            let end = reverse ? file.size : CHUNK_SIZE;
+
+            let start = 0;
+            let next = (processTimes + 1) * CHUNK_SIZE;
+            let end = CHUNK_SIZE;
 
             // cutting big files to small chunks
             let slice = file.slice(start, end);
