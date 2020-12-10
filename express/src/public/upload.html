@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>上傳檔案</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+TC" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Andika+New+Basic" rel="stylesheet"/>
+    <style>
+        .root {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            font-weight: 600;
+            height: 100vh;
+            font-size: 30px;
+        }
+
+        span{
+            font-family:'Andika New Basic', 'Noto Sans TC';
+        }
+
+        .folder-img {
+            width: auto;
+            max-height: 60%;
+        }
+    </style>
+</head>
+<body>
+<div class="root">
+    <img class="folder-img" src="./file-and-folder.svg" alt="資料夾圖片">
+    <span>D:/project_good/log.txt</span>
+    <div class="btn-group" role="group" style="margin-top: 20px;width: 60vh">
+        <button class="btn btn-primary">選擇檔案</button>
+        <button class="btn btn-success">上傳檔案</button>
+    </div>
+</div>
+</body>
+</html>
