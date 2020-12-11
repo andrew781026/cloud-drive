@@ -23,20 +23,26 @@
         let CHUNK_SIZE = 10 * 1024;
         let processTimes = 0;
 
-        reader.onload = function (fileReader) {
-            let buffer = new Uint8Array(fileReader.result);
+        reader.onload = function () {
+            let buffer = new Uint8Array(reader.result);
 
-            console.log('file=', file)
+            let start = processTimes * CHUNK_SIZE;
+            let next = (processTimes + 1) * CHUNK_SIZE;
+            let end = (next > file.size) ? file.size : next;
+            console.log(`current start = ${start},end = ${end}`);
 
             // send the buffer to api server
             sendTypedArray(buffer, file.name);
         }
 
-        reader.onloadend = function (fileReader) {
+        /*
+        reader.onloadend = function () {
             console.log('onloadend 🚀');
-            console.log(fileReader);
-            if (++processTimes < 3) seek();
+            if (++processTimes * CHUNK_SIZE < file.size) seek();
         }
+         */
+
+        const nextSeek = () => (++processTimes * CHUNK_SIZE < file.size) && seek();
 
         seek();
 
@@ -55,16 +61,16 @@
                 // redirect: 'follow', // manual, *follow, error
                 // referrer: 'no-referrer', // *client, no-referrer
             })
-            // .then(console.log)
+                .then(() => nextSeek())
             // .catch(console.error);
         }
 
         // 切分好幾塊 , 然後最後把檔案 merge 起來
         function seek() {
 
-            let start = 0;
+            let start = processTimes * CHUNK_SIZE;
             let next = (processTimes + 1) * CHUNK_SIZE;
-            let end = CHUNK_SIZE;
+            let end = (next > file.size) ? file.size : next;
 
             // cutting big files to small chunks
             let slice = file.slice(start, end);
