@@ -23,6 +23,8 @@
             max-width: 90vw;
             width: 60vh;
             cursor: pointer;
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
         }
 
         .folder-path {
@@ -49,7 +51,6 @@
 <body>
 <div class="root"></div>
 
-
 <script src="https://unpkg.com/vue@3.0.4/dist/vue.global.prod.js"></script>
 <script>
 
@@ -60,7 +61,7 @@
             <div class="root">
                 <span class="folder-path">{{file ? file.name : '請選擇檔案'}}</span>
                 <img v-if="mode ==='uploading'" class="folder-img mb-8" src="./uploading-cat.gif" alt="上傳中...">
-                <img v-else class="folder-img" :src="file ? './document-file.svg' : './file-and-folder.svg'"
+                <img v-else class="folder-img" :src="file ? './folder-full.svg' : './folder.svg'"
                      alt="資料夾圖片" title="選擇檔案" @click="pickFile">
                 <input id="upload-file" type="file" class="hidden" @change="handleFiles($event.target.files)">
                 <div class="btn-wrapper width-constraint" v-if="mode === 'pick'">
@@ -119,8 +120,8 @@
                 let CHUNK_SIZE = 10 * 1024; // 10 KB
                 let processTimes = 0;
 
-                reader.onload = function () {
-                    let buffer = new Uint8Array(reader.result);
+                reader.onload = function (e) {
+                    let buffer = new Uint8Array(e.target.result);
 
                     let start = processTimes * CHUNK_SIZE;
                     let next = (processTimes + 1) * CHUNK_SIZE;
@@ -129,13 +130,6 @@
 
                     // send the buffer to api server
                     sendTypedArray(buffer, file.name);
-                }
-
-                const changeProgressbar = (percent) => {
-
-                    const progressbar = document.querySelector('div[role=progressbar]');
-                    progressbar.style.width = `${percent}%`;
-                    progressbar.innerHTML = `${percent} %`;
                 }
 
                 const nextSeek = () => {
@@ -159,7 +153,6 @@
                     }
 
                     // change to progress bar mode
-                    // changeProgressbar(percent);
                     this.percent = percent;
 
                     if (processTimes * CHUNK_SIZE < file.size) seek();

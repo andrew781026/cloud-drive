@@ -23,8 +23,18 @@
         let CHUNK_SIZE = 10 * 1024;
         let processTimes = 0;
 
-        reader.onload = function () {
-            let buffer = new Uint8Array(reader.result);
+        // 格式化日期 , 參考資料 : https://stackoverflow.com/questions/3552461/how-to-format-a-javascript-date#answer-3552493
+        const dateFormatter = date => {
+
+            const ye = new Intl.DateTimeFormat('en', {year: 'numeric'}).format(date);
+            const mo = new Intl.DateTimeFormat('en', {month: '2-digit'}).format(date);
+            const da = new Intl.DateTimeFormat('en', {day: '2-digit'}).format(date);
+
+            return `${ye}-${mo}-${da}`;
+        };
+
+        reader.onload = function (e) {
+            let buffer = new Uint8Array(e.target.result);
 
             let start = processTimes * CHUNK_SIZE;
             let next = (processTimes + 1) * CHUNK_SIZE;
