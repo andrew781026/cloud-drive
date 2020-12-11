@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <title>上傳檔案</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+TC" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css?family=Andika+New+Basic" rel="stylesheet"/>
     <style>
+
         .root {
             display: flex;
             justify-content: center;
@@ -17,24 +19,136 @@
             font-size: 30px;
         }
 
-        span{
-            font-family:'Andika New Basic', 'Noto Sans TC';
+        .folder-img {
+            max-width: 90vw;
+            width: 60vh;
+            cursor: pointer;
         }
 
-        .folder-img {
-            width: auto;
-            max-height: 60%;
+        .folder-path {
+            font-family: 'Andika New Basic', 'Noto Sans TC';
+            word-wrap: break-word;
         }
+
+        .btn-wrapper {
+            max-width: 90vw;
+            width: 60vh;
+            display: flex;
+            justify-content: space-evenly;
+        }
+
     </style>
 </head>
 <body>
 <div class="root">
-    <img class="folder-img" src="./file-and-folder.svg" alt="資料夾圖片">
-    <span>D:/project_good/log.txt</span>
-    <div class="btn-group" role="group" style="margin-top: 20px;width: 60vh">
-        <button class="btn btn-primary">選擇檔案</button>
-        <button class="btn btn-success">上傳檔案</button>
+    <span class="folder-path">D:/project_good/log.txt</span>
+    <img class="folder-img" src="./file-and-folder.svg" alt="資料夾圖片" title="選擇檔案" onclick="pickFile()">
+    <input id="upload-file" type="file" class="hidden" onchange="handleFiles(this.files)">
+    <div class="btn-wrapper">
+        <button class="btn btn-primary mx-2 text-2xl w-1/2" onclick="pickFile()">選擇檔案</button>
+        <button class="btn btn-success mx-2 text-2xl w-1/2" onclick="handleUpload()">上傳檔案</button>
     </div>
+    <div class="progress h-8"
+         style="display:none;width: 60vh;border: 1px solid #333333;border-radius: 20px">
+        <div class="progress-bar progress-bar-animated text-xl" role="progressbar"></div>
+    </div>
+
+    <script>
+
+        let globalFile;
+
+        function changeProgressbar(percent) {
+
+            const progressbar = document.querySelector('div[role=progressbar]');
+            progressbar.style.width = `${percent}%`;
+            progressbar.innerHTML = `${percent} %`;
+        }
+
+        function pickFile() {
+
+            document.getElementById('upload-file').click();
+        }
+
+        function handleFiles(files) {
+
+            globalFile = files[0];
+
+            document.querySelector('.folder-path').innerHTML = globalFile.name
+        }
+
+        function handleUpload() {
+
+            let file = globalFile;
+            let reader = new FileReader();
+            let CHUNK_SIZE = 10 * 1024;
+            let processTimes = 0;
+
+            document.querySelector('.btn-wrapper').style.display = 'none';
+            document.querySelector('.progress').style.display = 'inherit';
+
+            reader.onload = function () {
+                let buffer = new Uint8Array(reader.result);
+
+                let start = processTimes * CHUNK_SIZE;
+                let next = (processTimes + 1) * CHUNK_SIZE;
+                let end = (next > file.size) ? file.size : next;
+                console.log(`current start = ${start},end = ${end}`);
+
+                // send the buffer to api server
+                sendTypedArray(buffer, file.name);
+            }
+
+            const nextSeek = () => {
+
+                ++processTimes;
+
+                // get percent of send file progress
+                const total = file.size;
+                const next = processTimes * CHUNK_SIZE;
+                const end = (next > file.size) ? file.size : next;
+                const percent = Math.floor((end / total) * 100);
+
+                // change to progress bar mode
+                changeProgressbar(percent);
+
+                if (processTimes * CHUNK_SIZE < file.size) seek();
+            }
+
+            function sendTypedArray(typedArray, fileName) {
+
+                fetch('http://localhost:3011/file/upload/bytes', {
+                    body: JSON.stringify({bytes: typedArray, fileName}), // must match 'Content-Type' header
+                    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                    credentials: 'same-origin', // include, same-origin, *omit
+                    headers: {
+                        'user-agent': 'Mozilla/4.0 MDN Example',
+                        'content-type': 'application/json'
+                    },
+                    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                    mode: 'cors', // no-cors, cors, *same-origin
+                    // redirect: 'follow', // manual, *follow, error
+                    // referrer: 'no-referrer', // *client, no-referrer
+                })
+                    .then(() => nextSeek())
+                // .catch(console.error);
+            }
+
+            // 檔案切分好幾塊 , 然後最後把檔案 merge 起來
+            function seek() {
+
+                let start = processTimes * CHUNK_SIZE;
+                let next = (processTimes + 1) * CHUNK_SIZE;
+                let end = (next > file.size) ? file.size : next;
+
+                // cutting big files to small chunks
+                let slice = file.slice(start, end);
+                reader.readAsArrayBuffer(slice);
+            }
+
+            seek();
+        }
+
+    </script>
 </div>
 </body>
 </html>
