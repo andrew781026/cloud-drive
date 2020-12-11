@@ -31,124 +31,178 @@
         }
 
         .btn-wrapper {
-            max-width: 90vw;
-            width: 60vh;
             display: flex;
             justify-content: space-evenly;
         }
 
+        .progress-wrapper {
+            border: 1px solid #333333;
+            border-radius: 20px;
+        }
+
+        .width-constraint {
+            max-width: 90vw;
+            width: 60vh;
+        }
     </style>
 </head>
 <body>
-<div class="root">
-    <span class="folder-path">D:/project_good/log.txt</span>
-    <img class="folder-img" src="./file-and-folder.svg" alt="資料夾圖片" title="選擇檔案" onclick="pickFile()">
-    <input id="upload-file" type="file" class="hidden" onchange="handleFiles(this.files)">
-    <div class="btn-wrapper">
-        <button class="btn btn-primary mx-2 text-2xl w-1/2" onclick="pickFile()">選擇檔案</button>
-        <button class="btn btn-success mx-2 text-2xl w-1/2" onclick="handleUpload()">上傳檔案</button>
-    </div>
-    <div class="progress h-8"
-         style="display:none;width: 60vh;border: 1px solid #333333;border-radius: 20px">
-        <div class="progress-bar progress-bar-animated text-xl" role="progressbar"></div>
-    </div>
+<div class="root"></div>
 
-    <script>
 
-        let globalFile;
+<script src="https://unpkg.com/vue@3.0.4/dist/vue.global.prod.js"></script>
+<script>
 
-        function changeProgressbar(percent) {
+    const app = Vue.createApp({
 
-            const progressbar = document.querySelector('div[role=progressbar]');
-            progressbar.style.width = `${percent}%`;
-            progressbar.innerHTML = `${percent} %`;
-        }
+        template:
+                    `
+            <div class="root">
+                <span class="folder-path">{{file ? file.name : '請選擇檔案'}}</span>
+                <img v-if="mode ==='uploading'" class="folder-img mb-8" src="./uploading-cat.gif" alt="上傳中...">
+                <img v-else class="folder-img" :src="file ? './document-file.svg' : './file-and-folder.svg'"
+                     alt="資料夾圖片" title="選擇檔案" @click="pickFile">
+                <input id="upload-file" type="file" class="hidden" @change="handleFiles($event.target.files)">
+                <div class="btn-wrapper width-constraint" v-if="mode === 'pick'">
+                    <button class="btn btn-primary mx-2 text-2xl w-1/2" @click="pickFile">選擇檔案</button>
+                    <button class="btn btn-success mx-2 text-2xl w-1/2" @click="handleUpload">上傳檔案</button>
+                </div>
+                <div class="progress progress-wrapper h-8 width-constraint" v-if="mode === 'uploading'">
+                    <div class="progress-bar progress-bar-animated progress-bar-striped text-xl"
+                         :style="{width:perWidth}"
+                         role="progressbar">
+                        {{percent}} %
+                    </div>
+                </div>
+                <div class="alert alert-success block text-center width-constraint" role="alert" style="width: 60vh"
+                     v-if="mode === 'done'">
+                    成功上傳檔案 😁
+                </div>
+            </div>`,
 
-        function pickFile() {
+        data() {
 
-            document.getElementById('upload-file').click();
-        }
-
-        function handleFiles(files) {
-
-            globalFile = files[0];
-
-            document.querySelector('.folder-path').innerHTML = globalFile.name
-        }
-
-        function handleUpload() {
-
-            let file = globalFile;
-            let reader = new FileReader();
-            let CHUNK_SIZE = 10 * 1024;
-            let processTimes = 0;
-
-            document.querySelector('.btn-wrapper').style.display = 'none';
-            document.querySelector('.progress').style.display = 'inherit';
-
-            reader.onload = function () {
-                let buffer = new Uint8Array(reader.result);
-
-                let start = processTimes * CHUNK_SIZE;
-                let next = (processTimes + 1) * CHUNK_SIZE;
-                let end = (next > file.size) ? file.size : next;
-                console.log(`current start = ${start},end = ${end}`);
-
-                // send the buffer to api server
-                sendTypedArray(buffer, file.name);
+            return {
+                percent: 0,
+                file: null,
+                mode: 'pick'  // mode : pick . uploading . done
             }
+        },
 
-            const nextSeek = () => {
+        computed: {
 
-                ++processTimes;
+            perWidth() {
 
-                // get percent of send file progress
-                const total = file.size;
-                const next = processTimes * CHUNK_SIZE;
-                const end = (next > file.size) ? file.size : next;
-                const percent = Math.floor((end / total) * 100);
+                return this.percent + '%'
+            },
+        },
 
-                // change to progress bar mode
-                changeProgressbar(percent);
+        methods: {
 
-                if (processTimes * CHUNK_SIZE < file.size) seek();
+            pickFile() {
+
+                document.getElementById('upload-file').click();
+            },
+
+            handleFiles(files) {
+
+                this.file = files[0];
+                this.mode = 'pick';
+            },
+
+            handleUpload() {
+
+                this.mode = 'uploading';
+
+                let file = this.file;
+                let reader = new FileReader();
+                let CHUNK_SIZE = 10 * 1024; // 10 KB
+                let processTimes = 0;
+
+                reader.onload = function () {
+                    let buffer = new Uint8Array(reader.result);
+
+                    let start = processTimes * CHUNK_SIZE;
+                    let next = (processTimes + 1) * CHUNK_SIZE;
+                    let end = (next > file.size) ? file.size : next;
+                    console.log(`current start = ${start},end = ${end}`);
+
+                    // send the buffer to api server
+                    sendTypedArray(buffer, file.name);
+                }
+
+                const changeProgressbar = (percent) => {
+
+                    const progressbar = document.querySelector('div[role=progressbar]');
+                    progressbar.style.width = `${percent}%`;
+                    progressbar.innerHTML = `${percent} %`;
+                }
+
+                const nextSeek = () => {
+
+                    ++processTimes;
+
+                    // get percent of send file progress
+                    const total = file.size;
+                    const next = processTimes * CHUNK_SIZE;
+                    const end = (next > file.size) ? file.size : next;
+                    const percent = Math.floor((end / total) * 100);
+
+                    if (percent === 100) {
+
+                        setTimeout(() => {
+
+                            this.mode = 'done';
+                            this.file = null;
+
+                        }, 1000)
+                    }
+
+                    // change to progress bar mode
+                    // changeProgressbar(percent);
+                    this.percent = percent;
+
+                    if (processTimes * CHUNK_SIZE < file.size) seek();
+                }
+
+                function sendTypedArray(typedArray, fileName) {
+
+                    fetch('http://localhost:3011/file/upload/bytes', {
+                        body: JSON.stringify({bytes: typedArray, fileName}), // must match 'Content-Type' header
+                        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                        credentials: 'same-origin', // include, same-origin, *omit
+                        headers: {
+                            'user-agent': 'Mozilla/4.0 MDN Example',
+                            'content-type': 'application/json'
+                        },
+                        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                        mode: 'cors', // no-cors, cors, *same-origin
+                        // redirect: 'follow', // manual, *follow, error
+                        // referrer: 'no-referrer', // *client, no-referrer
+                    })
+                        .then(() => nextSeek())
+                    // .catch(console.error);
+                }
+
+                // 檔案切分好幾塊 , 然後最後把檔案 merge 起來
+                function seek() {
+
+                    let start = processTimes * CHUNK_SIZE;
+                    let next = (processTimes + 1) * CHUNK_SIZE;
+                    let end = (next > file.size) ? file.size : next;
+
+                    // cutting big files to small chunks
+                    let slice = file.slice(start, end);
+                    reader.readAsArrayBuffer(slice);
+                }
+
+                seek();
             }
-
-            function sendTypedArray(typedArray, fileName) {
-
-                fetch('http://localhost:3011/file/upload/bytes', {
-                    body: JSON.stringify({bytes: typedArray, fileName}), // must match 'Content-Type' header
-                    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-                    credentials: 'same-origin', // include, same-origin, *omit
-                    headers: {
-                        'user-agent': 'Mozilla/4.0 MDN Example',
-                        'content-type': 'application/json'
-                    },
-                    method: 'POST', // *GET, POST, PUT, DELETE, etc.
-                    mode: 'cors', // no-cors, cors, *same-origin
-                    // redirect: 'follow', // manual, *follow, error
-                    // referrer: 'no-referrer', // *client, no-referrer
-                })
-                    .then(() => nextSeek())
-                // .catch(console.error);
-            }
-
-            // 檔案切分好幾塊 , 然後最後把檔案 merge 起來
-            function seek() {
-
-                let start = processTimes * CHUNK_SIZE;
-                let next = (processTimes + 1) * CHUNK_SIZE;
-                let end = (next > file.size) ? file.size : next;
-
-                // cutting big files to small chunks
-                let slice = file.slice(start, end);
-                reader.readAsArrayBuffer(slice);
-            }
-
-            seek();
         }
+    });
 
-    </script>
-</div>
+    app.mount('.root');
+
+</script>
 </body>
 </html>

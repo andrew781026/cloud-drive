@@ -21,10 +21,19 @@ router.post('/upload/bytes', (req, res) => {
     const {bytes, fileName} = req.body
 
     const fs = require('fs');
+    const filePath = `./${fileName}`;
+
+    // 確認檔案是否存在
+    /*
+    if (fs.existsSync(filePath)) {
+
+        throw new Error('檔案重複 , 請更改檔名 , 再次上傳 ! ');
+
+    } else {
+     */
 
     const byteArray = Uint8Array.from(Object.values(bytes));
-    fs.writeFileSync('./' + fileName, byteArray, {flag: 'a'});
-
+    fs.writeFileSync(filePath, byteArray, {flag: 'a'});
     res.json({bytes})
 });
 

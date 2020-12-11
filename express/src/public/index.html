@@ -35,13 +35,6 @@
             sendTypedArray(buffer, file.name);
         }
 
-        /*
-        reader.onloadend = function () {
-            console.log('onloadend 🚀');
-            if (++processTimes * CHUNK_SIZE < file.size) seek();
-        }
-         */
-
         const nextSeek = () => (++processTimes * CHUNK_SIZE < file.size) && seek();
 
         seek();
