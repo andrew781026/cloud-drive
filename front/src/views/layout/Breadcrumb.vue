@@ -4,12 +4,22 @@
             <span>我的雲端硬碟</span>
         </div>
         <i class="material-icons arrow">keyboard_arrow_right</i>
+        <div class="flex-1"></div>
+        <div class="icon-btn mr-4" v-if="mode === 'list'" @click="$emit('change-mode','grid')">
+            <i class="material-icons">list</i>
+        </div>
+        <div class="icon-btn mr-4" v-else @click="$emit('change-mode','list')">
+            <i class="material-icons">grid_on</i>
+        </div>
     </div>
 </template>
 
 <script>
     export default {
-        name: "Breadcrumb"
+        name: "Breadcrumb",
+        props: {
+            mode: String
+        }
     }
 </script>
 
@@ -38,5 +48,25 @@
     .arrow {
         color: #a0aec0;
         margin-top: 7px;
+    }
+
+    .icon-btn {
+        cursor: pointer;
+        color: #8e9199;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .icon-btn:hover {
+        color: #333333;
+        background-color: #dedfe1;
+    }
+
+    .icon-btn:active {
+        color: #3a8ee6;
     }
 </style>
