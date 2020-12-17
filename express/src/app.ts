@@ -32,7 +32,6 @@ app.get('/',(req,res)=>{
 
 // api routes
 app.use('/file', require('./routes/files'));
-app.use('/video', require('./routes/video'));
 
 const server = app.listen(port, () => {
     console.log('uecare api listening at port %s', port);

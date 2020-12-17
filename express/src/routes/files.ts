@@ -5,8 +5,7 @@ const errorWrapper = require('../utils/errorWrapper');
 const fileUtils = require('../utils/fileUtils');
 const fs = require('fs');
 
-const rootPath = __dirname;
-
+// 回傳 formidable 測試用的表單
 router.get('/', (req, res) => {
     res.send(`
     <h2>With <code>"express"</code> npm package</h2>
@@ -18,6 +17,7 @@ router.get('/', (req, res) => {
   `);
 });
 
+// 確認檔案是否存在
 router.get('/exist', (req, res) => {
     const {fileName} = req.body
 
@@ -26,6 +26,7 @@ router.get('/exist', (req, res) => {
     res.json({exist})
 });
 
+// 將檔案 slice 後分區塊上傳
 router.post('/upload/bytes', (req, res) => {
     const {bytes, fileName} = req.body
 
@@ -36,6 +37,7 @@ router.post('/upload/bytes', (req, res) => {
     res.json({bytes})
 });
 
+// 將檔案放在表單中 , 一併做傳送
 router.post('/upload', (req, res, next) => {
     const form = formidable({multiples: true});
 
@@ -47,6 +49,16 @@ router.post('/upload', (req, res, next) => {
         }
         res.json({fields, files});
     });
+});
+
+let rootPath;
+
+// 設定根目錄
+router.put('/rootPath', (req, res) => {
+
+    rootPath = req.body.rootPath;
+
+    res.json({status: '200', msg: '成功設定 rootPath'})
 });
 
 module.exports = router;
