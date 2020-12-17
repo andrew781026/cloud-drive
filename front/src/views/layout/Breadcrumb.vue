@@ -4,6 +4,7 @@
             <span>我的雲端硬碟</span>
         </div>
         <i class="material-icons arrow">keyboard_arrow_right</i>
+        {{currPath}}
         <div class="flex-1"></div>
         <div class="icon-btn mr-4" v-if="mode === 'grid'"
              title="清單檢視"
@@ -19,10 +20,21 @@
 </template>
 
 <script>
+    import {currPath} from '@/compositions/useFile';
+    // 取得根目錄的相對位置 , 需要拆解路徑 , 然後顯示出來
+
     export default {
         name: "Breadcrumb",
         props: {
             mode: String
+        },
+        setup() {
+
+            return {currPath}
+        },
+        updated() {
+
+            console.log(this.currPath)
         }
     }
 </script>

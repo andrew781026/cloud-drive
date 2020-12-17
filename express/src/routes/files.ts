@@ -51,7 +51,7 @@ router.post('/upload', (req, res, next) => {
     });
 });
 
-let rootPath = 'D:/test';
+let rootPath = 'E:\\web_projects';
 
 // 設定根目錄
 router.put('/rootPath', (req, res) => {
@@ -70,10 +70,10 @@ router.get('/rootPath', (req, res) => {
 
 router.get('/list', (req, res) => {
 
-    const directory = req.query.directory || rootPath;
+    const directory = req.query.directory || '';
     console.log('directory=', directory);
 
-    const files = fileUtils.listFiles(directory);
+    const files = fileUtils.listFiles(directory, rootPath);
 
     res.json(files);
 });

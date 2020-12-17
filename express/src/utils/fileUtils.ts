@@ -13,7 +13,8 @@ import * as path from 'path';
 interface StatsFormatterOutput extends fs.Stats {
     name: string;
     size: number,             // 檔案大小 (bytes)
-    filePath: string,         // 檔案位置
+    filePath?: string,         // 檔案絕對位置
+    relativePath?: string,     // 檔案相對位置
     fileType: string,
     createTime: Date,         // 建立時間
     modifyTime: Date,         // 修改時間
@@ -22,11 +23,19 @@ interface StatsFormatterOutput extends fs.Stats {
     isSymbolicLink(): boolean,  // 是否為捷徑
 }
 
-type StatsFormatterFn = ({stats, name, filePath}: { stats: fs.Stats, name: string, filePath: string }) => StatsFormatterOutput;
-const statsFormatter: StatsFormatterFn = ({stats, name, filePath}) => ({
+interface StatsFormatterInput {
+    stats: fs.Stats;
+    name: string;
+    filePath: string;
+    relativePath?: string;
+}
+
+type StatsFormatterFn = ({stats, name, filePath, relativePath}: StatsFormatterInput) => StatsFormatterOutput;
+const statsFormatter: StatsFormatterFn = ({stats, name, filePath, relativePath}) => ({
 
     ...stats,
     filePath,
+    relativePath,
     name,                                     // 檔名
     size: stats.size,                         // 檔案大小 (bytes)
     createTime: stats.birthtime,              // 建立時間
@@ -47,18 +56,22 @@ const getFileInfo = (filePath: string): StatsFormatterOutput => {
 };
 
 // 取得某資料夾中所有的檔案列表
-const listFiles = (directory: string): StatsFormatterOutput[] => {
+const listFiles = (directory: string, rootPath: string): StatsFormatterOutput[] => {
+
+    const dir = `${rootPath}/${directory}`;
 
     // 參考資料 : https://stackabuse.com/node-list-files-in-a-directory/
-    return fs.readdirSync(directory).map(file => {
+    return fs.readdirSync(dir).map(file => {
 
-        const filePath = path.resolve(directory, file);
+        const filePath = path.resolve(dir, file);
         const stats = fs.lstatSync(filePath);
+        const relativePath = path.relative(rootPath, filePath);
 
         return statsFormatter({
             stats,
             name: file,
-            filePath
+            filePath,
+            relativePath
         });
     });
 };

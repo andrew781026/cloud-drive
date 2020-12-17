@@ -11,6 +11,10 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI);
 
+// install vue-composition-api
+import VueCompositionAPI from '@vue/composition-api'
+Vue.use(VueCompositionAPI)
+
 // productionTip must be true when production
 Vue.config.productionTip =  process.env.NODE_ENV === 'production';
 

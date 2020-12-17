@@ -24,8 +24,6 @@
     import FolderBlock from "./layout/FolderBlock";
     import FileBlock from "./layout/FileBlock";
     import ListBlock from "./layout/ListBlock";
-    // import FileService from "../graphql/service/file";
-    import gql from 'graphql-tag';
 
     export default {
         name: 'Home',
@@ -38,76 +36,17 @@
             'file_block': FileBlock,
             'list_block': ListBlock,
         },
-        mounted() {
-
-            /*
-            FileService.listFiles('D:/ezoom/thaitown-call-system/front/src')
-                .then(console.log)
-                .catch(console.error)
-
-             */
-
-        },
         data() {
 
             return {
                 directory: 'D:/ezoom/thaitown-call-system/front/src',
                 hello: '',
                 files: '',
+                currentPath: '/',
                 mode: 'list' // mode = 'grid' . 'list'
             }
         },
-        // Apollo-specific options
-        apollo: {
-            // Simple query that will update the 'hello' vue property
-            hello: gql`{hello}`,
-            // Query with parameters
-            files: {
-                // Query
-                query: gql`query listFiles($directory: String!){
-                      files(directory: $directory) {
-                          name,
-                          size,
-                          createTime,
-                          modifyTime,
-                          isDirectory,
-                          isFile,
-                          isSymbolicLink,
-                      }
-                    }`,
-                // Reactive parameters
-                variables() {
-                    // Use vue reactive properties here
-                    return {
-                        directory: this.directory,
-                    }
-                },
-                update: data => data
-            },
-        },
-        methods: {
-            async listFiles(directory) {
-                // Call to the graphql mutation
-                return await this.$apollo.query({
-                    // Query
-                    query: gql`query listFiles($directory: String!){
-                      files(directory: $directory) {
-                          name,
-                          size,
-                          createTime,
-                          modifyTime,
-                          isDirectory,
-                          isFile,
-                          isSymbolicLink,
-                      }
-                    }`,
-                    // Static parameters
-                    variables: {
-                        directory,
-                    },
-                })
-            }
-        }
+        methods: {}
     }
 </script>
 
