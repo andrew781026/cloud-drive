@@ -54,7 +54,7 @@
                 directory: 'D:/ezoom/thaitown-call-system/front/src',
                 hello: '',
                 files: '',
-                mode: 'grid' // mode = 'grid' . 'list'
+                mode: 'list' // mode = 'grid' . 'list'
             }
         },
         // Apollo-specific options

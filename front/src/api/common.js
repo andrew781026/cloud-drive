@@ -32,7 +32,7 @@ class DomainCommon {
     }
 
     static getApiUrl() {
-        return window.config.apiServer.url + window.config.apiServer.urlRoot;
+        return 'http://localhost:3011';
     }
 
     static setAPIToken(accessToken = undefined) {

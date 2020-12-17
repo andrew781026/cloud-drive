@@ -3,6 +3,8 @@
         <el-table
                 height="100%"
                 class="file-table"
+                @row-click="selectFolder"
+                row-class-name="cursor-pointer"
                 :data="tableData"
                 :default-sort="{prop: 'date', order: 'descending'}"
         >
@@ -10,7 +12,13 @@
                     prop="name"
                     label="名稱"
                     sortable
-                    width="180">
+                    width="230">
+                <template slot-scope="scope">
+                    <i class="material-icons" style="font-size: 18px;transform: translateY(3px);margin-right: 3px">
+                        {{ scope.row.fileType === 'isDirectory'? 'folder':'library_books' }}
+                    </i>
+                    <span>{{ scope.row.name }}</span>
+                </template>
             </el-table-column>
             <el-table-column
                     prop="date"
@@ -28,6 +36,7 @@
             <el-table-column
                     prop="size"
                     sortable
+                    :formatter="fzFormatter"
                     label="大小">
             </el-table-column>
         </el-table>
@@ -35,10 +44,32 @@
 </template>
 
 <script>
-    import DateUtil from '@/utils/dateUtil'
+    import DateUtil from '@/utils/dateUtil';
+    import filesize from 'filesize';
+    import FileService from '@/api/file';
+
+    const Transformer = {
+        file: arr => {
+
+            return arr && arr.map(item => ({
+                size: item.size, // 檔案大小
+                filePath: item.filePath, // 檔案位置
+                name: item.name, // 檔案名稱
+                createTime: item.createTime, // 建立時間
+                modifyTime: item.modifyTime, // 最後修改時間
+                date: item.modifyTime, // 最後修改時間
+                fileType: item.fileType, // 檔案類型
+                type: item.fileType, // 檔案類型
+            }))
+        }
+    }
 
     export default {
         name: "ListBlock",
+        mounted() {
+
+            this.getTableData();
+        },
         data() {
 
             const nameArr = [
@@ -98,17 +129,14 @@
             // 隨機產生資料
             const generateData = num => {
 
-                const getRandom = (min, max) => {
-
-                    return Math.floor(Math.random() * max + min) % (max + 1);
-                }
+                const getRandom = (min, max) => Math.floor(Math.random() * max + min) % (max + 1);
 
                 const getSingle = () => {
 
                     const nameIndex = getRandom(0, nameArr.length - 1);
                     const typeIndex = getRandom(0, typeArr.length - 1);
                     const timestamp = getRandom(1338974151296, 1638974151296);
-                    const size = getRandom(1161296, 31638974151296);
+                    const size = getRandom(1296, 3161815296);
 
                     return {
                         size,
@@ -129,6 +157,32 @@
         methods: {
             formatter(row, column) {
                 return DateUtil.format(row[column.property], 'YYYY-MM-DD');
+            },
+            fzFormatter(row, column) {
+
+                if (row.fileType === 'isDirectory') return '-';
+                else return filesize(row[column.property], {round: 0});
+            },
+            getTableData(directory) {
+
+                // 取得檔案數量 & 檔案
+                FileService.listFile(directory)
+                    .then(files => {
+
+                        console.log('getTableData , files=', files);
+                        this.tableData = Transformer.file(files);
+                    })
+                    .catch(console.error)
+            },
+            selectFolder(row) {
+
+                console.log('selectFolder , row=', row);
+
+                if (row.fileType === 'isDirectory') {
+
+                    this.getTableData(row.filePath);
+
+                } else console.log('filename = ', row.name);
             }
         }
     }
