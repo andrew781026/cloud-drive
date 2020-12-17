@@ -13,6 +13,7 @@ import * as path from 'path';
 interface StatsFormatterOutput extends fs.Stats {
     name: string;
     size: number,             // 檔案大小 (bytes)
+    filePath: string,         // 檔案位置
     fileType: string,
     createTime: Date,         // 建立時間
     modifyTime: Date,         // 修改時間
@@ -21,10 +22,11 @@ interface StatsFormatterOutput extends fs.Stats {
     isSymbolicLink(): boolean,  // 是否為捷徑
 }
 
-type StatsFormatterFn = ({stats, name}: { stats: fs.Stats, name: string }) => StatsFormatterOutput;
-const statsFormatter: StatsFormatterFn = ({stats, name}) => ({
+type StatsFormatterFn = ({stats, name, filePath}: { stats: fs.Stats, name: string, filePath: string }) => StatsFormatterOutput;
+const statsFormatter: StatsFormatterFn = ({stats, name, filePath}) => ({
 
     ...stats,
+    filePath,
     name,                                     // 檔名
     size: stats.size,                         // 檔案大小 (bytes)
     createTime: stats.birthtime,              // 建立時間
@@ -33,18 +35,19 @@ const statsFormatter: StatsFormatterFn = ({stats, name}) => ({
 })
 
 // 取得檔案資訊
-const getFileInfo = filePath => {
+const getFileInfo = (filePath: string): StatsFormatterOutput => {
 
     const stats = fs.lstatSync(filePath);
 
     return statsFormatter({
         stats,
-        name: path.basename(filePath)
+        name: path.basename(filePath),
+        filePath
     });
 };
 
 // 取得某資料夾中所有的檔案列表
-const listFiles = directory => {
+const listFiles = (directory: string): StatsFormatterOutput[] => {
 
     // 參考資料 : https://stackabuse.com/node-list-files-in-a-directory/
     return fs.readdirSync(directory).map(file => {
@@ -55,6 +58,7 @@ const listFiles = directory => {
         return statsFormatter({
             stats,
             name: file,
+            filePath
         });
     });
 };
