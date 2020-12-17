@@ -5,10 +5,14 @@
         </div>
         <i class="material-icons arrow">keyboard_arrow_right</i>
         <div class="flex-1"></div>
-        <div class="icon-btn mr-4" v-if="mode === 'list'" @click="$emit('change-mode','grid')">
+        <div class="icon-btn mr-4" v-if="mode === 'grid'"
+             title="清單檢視"
+             @click="$emit('change-mode','list')">
             <i class="material-icons">list</i>
         </div>
-        <div class="icon-btn mr-4" v-else @click="$emit('change-mode','list')">
+        <div class="icon-btn mr-4" v-else
+             title="格狀檢視"
+             @click="$emit('change-mode','grid')">
             <i class="material-icons">grid_on</i>
         </div>
     </div>

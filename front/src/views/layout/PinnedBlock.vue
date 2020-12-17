@@ -87,7 +87,7 @@
     .pb-root {
         margin-top: 20px;
         max-width: calc(100vw - 400px);
-        max-height: 270px;
+        max-height: 250px;
         overflow-y: hidden;
     }
 

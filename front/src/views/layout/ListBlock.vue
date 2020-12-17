@@ -1,40 +1,134 @@
 <template>
-    <div>
-        Table
+    <div class="list-root">
+        <el-table
+                height="100%"
+                class="file-table"
+                :data="tableData"
+                :default-sort="{prop: 'date', order: 'descending'}"
+        >
+            <el-table-column
+                    prop="name"
+                    label="名稱"
+                    sortable
+                    width="180">
+            </el-table-column>
+            <el-table-column
+                    prop="date"
+                    label="修改日期"
+                    sortable
+                    :formatter="formatter"
+                    width="180">
+            </el-table-column>
+            <el-table-column
+                    prop="type"
+                    sortable
+                    width="180"
+                    label="類型">
+            </el-table-column>
+            <el-table-column
+                    prop="size"
+                    sortable
+                    label="大小">
+            </el-table-column>
+        </el-table>
     </div>
 </template>
 
 <script>
+    import DateUtil from '@/utils/dateUtil'
+
     export default {
         name: "ListBlock",
-        methods: {
-            toggleFolder(index) {
-
-                this.activeFolderIndex = index;
-            }
-        },
         data() {
 
+            const nameArr = [
+
+                '洪益',
+                '利中',
+                '長光',
+                '皇鑫',
+                '豐益',
+                '安晶',
+                '益飛',
+                '飛中',
+                '茂春',
+                '益康',
+                '復欣',
+                '春盛',
+                '正瑞',
+                '輝浩',
+                '進協',
+                '協壽',
+                '廣同',
+                '裕復',
+                '全謙',
+                '巨昇',
+                '美昇',
+                '東優',
+                '吉弘',
+                '台廣',
+                '協如',
+                '茂多',
+                '春吉',
+                '生盛',
+                '謙豐',
+                '萬鑫',
+                '益偉',
+                '利匯',
+                '和欣',
+                '如滿',
+                '公發',
+                '厚長',
+                '慶豐',
+                '亨偉',
+                '合洪',
+                '復慶',
+            ]
+
+            const typeArr = [
+
+                '檔案資料夾',
+                '試算表',
+                '文字檔',
+                '安裝檔',
+                'PDF',
+                '其他檔案'
+            ]
+
+            // 隨機產生資料
+            const generateData = num => {
+
+                const getRandom = (min, max) => {
+
+                    return Math.floor(Math.random() * max + min) % (max + 1);
+                }
+
+                const getSingle = () => {
+
+                    const nameIndex = getRandom(0, nameArr.length - 1);
+                    const typeIndex = getRandom(0, typeArr.length - 1);
+                    const timestamp = getRandom(1338974151296, 1638974151296);
+                    const size = getRandom(1161296, 31638974151296);
+
+                    return {
+                        size,
+                        date: new Date(timestamp),
+                        name: nameArr[nameIndex],
+                        type: typeArr[typeIndex],
+                    }
+                }
+
+                // https://stackoverflow.com/questions/5501581/javascript-new-arrayn-and-array-prototype-map-weirdness#answer-35086350
+                return new Array(num).fill(undefined).map(getSingle)
+            }
+
             return {
-                activeFolderIndex: -1,
-                files: [
-                    {
-                        icon: 'word',
-                        name: '探訪探訪大綱_Jay.doc'
-                    },
-                    {
-                        icon: 'word',
-                        name: '天心案規格書'
-                    },
-                    {
-                        icon: 'excel',
-                        name: '107年財報'
-                    },
-                    {
-                        icon: 'word',
-                        name: '企業修正案'
-                    },
-                ]
+                tableData: generateData(30)
+            }
+        },
+        methods: {
+            formatter(row, column) {
+                return DateUtil.format(row[column.property], 'YYYY-MM-DD');
             }
         }
     }
@@ -42,39 +136,12 @@
 
 <style scoped>
 
-    .folder-wrapper {
-        padding: 20px;
-        cursor: pointer;
-        margin: 20px;
-        border-radius: 6px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        border: 1px solid transparent;
+    .file-table {
+        width: calc(100% - 20px);
     }
 
-    .folder-wrapper:hover {
-        border: 1px solid black;
+    .list-root {
+        padding-left: 2rem;
+        height: calc(100vh - 400px);
     }
-
-    .folder-wrapper:active {
-        /* offset-x | offset-y | blur-radius | spread-radius | color */
-        box-shadow: 0 4px 10px 2px rgba(0, 0, 0, 0.2);
-        transform: translate(0, -2px);
-    }
-
-    .folder-wrapper.active {
-        border: 1px solid black;
-        background-color: #E8F0FE;
-    }
-
-    .folder-name {
-        width: 100px;
-        text-align: center;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-    }
-
 </style>
