@@ -9,7 +9,8 @@ import './assets/styles/index.css';
 // install element-ui
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
-Vue.use(ElementUI);
+import locale from 'element-ui/lib/locale/lang/zh-TW';
+Vue.use(ElementUI, { locale });
 
 // install vue-composition-api
 import VueCompositionAPI from '@vue/composition-api'
