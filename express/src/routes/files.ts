@@ -51,7 +51,7 @@ router.post('/upload', (req, res, next) => {
     });
 });
 
-let rootPath = 'E:\\web_projects';
+let rootPath = 'D:\\test';
 
 // 設定根目錄
 router.put('/rootPath', (req, res) => {

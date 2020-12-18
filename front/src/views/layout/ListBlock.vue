@@ -70,7 +70,7 @@
 
                 if (row.fileType === 'isDirectory') this.getTableData(row.relativePath);
                 else console.log('filename = ', row.name);
-            }
+            },
         }
     }
 </script>

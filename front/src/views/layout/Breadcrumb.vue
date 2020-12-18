@@ -1,10 +1,15 @@
 <template>
     <div class="bc-root flex">
-        <div class="pick">
+        <div class="pick" @click="switchCurrPath(-1)">
             <span>我的雲端硬碟</span>
         </div>
         <i class="material-icons arrow">keyboard_arrow_right</i>
-        {{currPath}}
+        <template v-for="(paths,index) in pathArr">
+            <div class="pick" :key="`pick=${index}`" @click="switchCurrPath(index)">
+                <span>{{paths}}</span>
+            </div>
+            <i class="material-icons arrow" :key="`icon=${index}`">keyboard_arrow_right</i>
+        </template>
         <div class="flex-1"></div>
         <div class="icon-btn mr-4" v-if="mode === 'grid'"
              title="清單檢視"
@@ -20,7 +25,7 @@
 </template>
 
 <script>
-    import {currPath} from '@/compositions/useFile';
+    import {currPath, pathArr, getTableData} from '@/compositions/useFile';
     // 取得根目錄的相對位置 , 需要拆解路徑 , 然後顯示出來
 
     export default {
@@ -30,11 +35,18 @@
         },
         setup() {
 
-            return {currPath}
+            return {currPath, pathArr}
         },
-        updated() {
+        methods: {
+            switchCurrPath(index) {
 
-            console.log(this.currPath)
+                if (index < 0) getTableData()
+                else {
+
+                    const newCurrPath = this.pathArr.slice(0, index + 1).join('\\');
+                    getTableData(newCurrPath)
+                }
+            }
         }
     }
 </script>

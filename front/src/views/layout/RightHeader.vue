@@ -10,13 +10,14 @@
                 placement="bottom-end"
                 width="200"
                 trigger="manual"
+                title="根目錄位置"
                 v-model="visible">
             <i slot="reference" class="material-icons pr-4 cursor-pointer"
                @click="visible = !visible" title="設定">settings</i>
             <template slot="default">
-                <h1>根目錄位置</h1>
                 <template v-if="mode === 'view'">
                     <span>{{rootPath}}</span>
+                    <br>
                     <el-button type="warning" @click="mode = 'edit'">變更</el-button>
                 </template>
                 <template v-else>

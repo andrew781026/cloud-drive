@@ -1,4 +1,4 @@
-import {ref} from '@vue/composition-api';
+import {computed, ref} from '@vue/composition-api';
 import FileService from '@/api/file';
 
 const Transformer = {
@@ -99,6 +99,9 @@ export const getRandomTableData = (num) => {
 
 export const tableData = ref(getRandomTableData(30));
 export const currPath = ref('/');
+
+// 將現在所在位置做切分顯示
+export const pathArr = computed(() => currPath.value ? currPath.value.split('\\') : [])
 
 export const getTableData = (directory) => {
 
