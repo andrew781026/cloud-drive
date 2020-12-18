@@ -1,13 +1,15 @@
 <template>
-  <el-card class="box-card fixed" :style="{left:clientX,top:clientY}">
-    <div slot="header" class="clearfix">
-      <span>卡片名称</span>
-      <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
-    </div>
-    <div v-for="o in 4" :key="o" class="text item">
-      {{ '列表内容 ' + o }}
-    </div>
-  </el-card>
+  <el-collapse-transition>
+    <el-card class="box-card fixed" :style="{left:clientX,top:clientY}" v-show="show">
+      <div slot="header" class="clearfix">
+        <span>卡片名称</span>
+        <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
+      </div>
+      <div v-for="o in 4" :key="o" class="text item">
+        {{ '列表内容 ' + o }}
+      </div>
+    </el-card>
+  </el-collapse-transition>
 </template>
 
 <script>
@@ -18,10 +20,10 @@ export default {
   name: "ContextMenu",
   setup() {
 
-    const {clientX, clientY} = useContextMenu()
+    const {clientX, clientY, show} = useContextMenu()
 
     // we need to open context menu at clientX . clientY
-    return {clientX, clientY}
+    return {clientX, clientY, show}
   },
   updated() {
 
