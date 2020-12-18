@@ -46,12 +46,16 @@
 <script>
     import DateUtil from '@/utils/dateUtil';
     import filesize from 'filesize';
-    import useFile from '@/compositions/useFile';
+    import {tableData, getTableData} from '@/compositions/useFile';
 
     export default {
         name: "ListBlock",
         setup() {
-            return useFile;
+            return {tableData, getTableData};
+        },
+        mounted() {
+
+            getTableData();
         },
         methods: {
             formatter(row, column) {
@@ -79,6 +83,6 @@
 
     .list-root {
         padding-left: 2rem;
-        height: calc(100vh - 400px);
+        height: calc(100vh - 405px);
     }
 </style>

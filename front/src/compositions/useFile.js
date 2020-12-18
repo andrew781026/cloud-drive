@@ -1,4 +1,4 @@
-import {ref, onMounted} from '@vue/composition-api';
+import {ref} from '@vue/composition-api';
 import FileService from '@/api/file';
 
 const Transformer = {
@@ -18,31 +18,97 @@ const Transformer = {
     }
 }
 
-const useFile = () => {
+export const getRandomTableData = (num) => {
 
-    const tableData = ref([]);
-    const currPath = ref('/');
+    const nameArr = [
 
-    const getTableData = (directory) => {
+        '洪益',
+        '利中',
+        '長光',
+        '皇鑫',
+        '豐益',
+        '安晶',
+        '益飛',
+        '飛中',
+        '茂春',
+        '益康',
+        '復欣',
+        '春盛',
+        '正瑞',
+        '輝浩',
+        '進協',
+        '協壽',
+        '廣同',
+        '裕復',
+        '全謙',
+        '巨昇',
+        '美昇',
+        '東優',
+        '吉弘',
+        '台廣',
+        '協如',
+        '茂多',
+        '春吉',
+        '生盛',
+        '謙豐',
+        '萬鑫',
+        '益偉',
+        '利匯',
+        '和欣',
+        '如滿',
+        '公發',
+        '厚長',
+        '慶豐',
+        '亨偉',
+        '合洪',
+        '復慶',
+    ]
 
-        currPath.value = directory;
+    const typeArr = [
 
-        // 取得檔案數量 & 檔案
-        FileService.listFile(directory)
-            .then(files => {
+        '檔案資料夾',
+        '試算表',
+        '文字檔',
+        '安裝檔',
+        'PDF',
+        '其他檔案'
+    ]
 
-                tableData.value = Transformer.file(files);
-            })
-            .catch(console.error)
-    };
+    const getRandom = (min, max) => Math.floor(Math.random() * max * 1000 + min) % (max + 1);
 
-    onMounted(getTableData);
+    const getSingle = () => {
 
-    return {
-        tableData,
-        currPath,
-        getTableData
+        const nameIndex = getRandom(0, nameArr.length - 1);
+        const typeIndex = getRandom(0, typeArr.length - 1);
+        const timestamp = getRandom(1338974151296, 1638974151296);
+        const size = getRandom(1296, 3161815296);
+        const isDirectory = getRandom(0, 1) === 0;
+
+        return {
+            size,
+            date: new Date(timestamp),
+            name: nameArr[nameIndex],
+            type: typeArr[typeIndex],
+            fileType: isDirectory ? 'isDirectory' : 'isFile'
+        }
     }
-}
 
-export default useFile();
+    // https://stackoverflow.com/questions/5501581/javascript-new-arrayn-and-array-prototype-map-weirdness#answer-35086350
+    return new Array(num).fill(undefined).map(getSingle)
+};
+
+export const tableData = ref(getRandomTableData(30));
+export const currPath = ref('/');
+
+export const getTableData = (directory) => {
+
+    currPath.value = directory;
+
+    // 取得檔案數量 & 檔案
+    FileService.listFile(directory)
+        .then(files => {
+
+            tableData.value = Transformer.file(files);
+        })
+        .catch(console.error)
+};

@@ -13,6 +13,17 @@ const FileService = {
         });
     },
 
+    // 設定根目錄
+    setRootPath: function (rootPath) {
+        return new Promise((resolve, reject) => {
+            return DomainCommon.fetchPut({
+                url: `${DomainCommon.getApiUrl()}/file/rootPath`,
+                jsonBody: {rootPath},
+                resolve, reject
+            });
+        });
+    },
+
 };
 
 export default FileService;

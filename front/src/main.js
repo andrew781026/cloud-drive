@@ -10,14 +10,18 @@ import './assets/styles/index.css';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import locale from 'element-ui/lib/locale/lang/zh-TW';
-Vue.use(ElementUI, { locale });
+Vue.use(ElementUI, {locale});
+
+// collapse 展开折叠
+import CollapseTransition from 'element-ui/lib/transitions/collapse-transition';
+Vue.component(CollapseTransition.name, CollapseTransition)
 
 // install vue-composition-api
 import VueCompositionAPI from '@vue/composition-api'
 Vue.use(VueCompositionAPI)
 
 // productionTip must be true when production
-Vue.config.productionTip =  process.env.NODE_ENV === 'production';
+Vue.config.productionTip = process.env.NODE_ENV === 'production';
 
 
 new Vue({
