@@ -31,21 +31,35 @@
 </template>
 
 <script>
+    import {rootPath, getRootPath, setRootPath} from '@/compositions/useRootPath';
+    import {getTableData} from '@/compositions/useFile';
+
     export default {
         name: "Header",
+        setup() {
+
+            return {rootPath}
+        },
         data() {
 
             return {
-                rootPath: 'D:\\test\\cloud-drive',
                 visible: false,
                 mode: 'view'  // mode = view . edit
             }
+        },
+        created() {
+
+            getRootPath()
         },
         methods: {
             save() {
 
                 this.visible = false;
                 this.mode = 'view';
+
+                setRootPath(this.rootPath)
+                    .then(() => getTableData())
+                    .catch(console.error);
             }
         }
     }

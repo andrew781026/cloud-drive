@@ -24,6 +24,16 @@ const FileService = {
         });
     },
 
+    // 取得根目錄
+    getRootPath: function () {
+        return new Promise((resolve, reject) => {
+            return DomainCommon.fetchGet({
+                url: `${DomainCommon.getApiUrl()}/file/rootPath`,
+                resolve, reject
+            });
+        });
+    },
+
 };
 
 export default FileService;

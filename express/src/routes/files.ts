@@ -63,9 +63,7 @@ router.put('/rootPath', (req, res) => {
 
 router.get('/rootPath', (req, res) => {
 
-    rootPath = req.body.rootPath;
-
-    res.json({rootPath})
+    res.json(rootPath)
 });
 
 router.get('/list', (req, res) => {
