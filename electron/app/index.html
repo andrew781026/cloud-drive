@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy"
+          content="style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'">
+    <title>取餐 / 出餐系統管理器</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="./css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/init-mask.css"/>
+</head>
+<body>
+<div id="app">
+    <app-title></app-title>
+    <init-mask v-if="loading"></init-mask>
+    <install-mask v-if="showInstallMask"></install-mask>
+    <div class="flex">
+        <install-btn v-if="!installed"
+                     @start="showInstallMask = true"
+                     @end="showInstallMask = false"
+                     @success="installed = true"></install-btn>
+        <root-folder></root-folder>
+    </div>
+    <hr/>
+    <need-install-warn v-show="!installed"></need-install-warn>
+    <container-panel v-show="installed"></container-panel>
+</div>
+
+<script src="js/vue.min.js"></script>
+
+<!--This sets the baseUrl to the "scripts" directory, and
+    loads a script that will have a module ID of 'main'-->
+<script data-main="js/main.js" src="js/require.min.js"></script>
+</body>
+</html>
