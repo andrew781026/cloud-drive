@@ -13,7 +13,6 @@
         <list_block v-else/>
       </div>
     </div>
-    <context_menu/>
   </div>
 </template>
 
@@ -25,7 +24,6 @@
   import FolderBlock from "./layout/FolderBlock";
   import FileBlock from "./layout/FileBlock";
   import ListBlock from "./layout/ListBlock";
-  import ContextMenu from "@/components/ContextMenu";
 
   export default {
     name: 'Home',
@@ -37,7 +35,6 @@
       'folder_block': FolderBlock,
       'file_block': FileBlock,
       'list_block': ListBlock,
-      'context_menu': ContextMenu,
     },
     data() {
 
