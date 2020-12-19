@@ -1,7 +1,7 @@
 <template>
   <div class="pb-root">
     <div class="flex items-center pl-8 cursor-pointer">
-      <div class="flex items-center hover:bg-gray-200 px-2" @click="toggleBlockShow">
+      <div class="flex items-center hover:bg-gray-200" @click="toggleCollapse">
         <i class="material-icons pr-2 pin"
            :class="[collapse ? 'deg-90':'deg-45']">
           push_pin
@@ -29,22 +29,23 @@
 </template>
 
 <script>
+import {collapse, toggleCollapse} from '@/compositions/usePinCollapse';
+
 export default {
   name: "PinnedBlock",
+  setup() {
+
+    return {collapse, toggleCollapse}
+  },
   methods: {
     toggleFolder(index) {
 
       this.activeFolderIndex = index;
     },
-    toggleBlockShow() {
-
-      this.collapse = !this.collapse;
-    }
   },
   data() {
 
     return {
-      collapse: false,
       activeFolderIndex: -1,
       pinnedFolders: [
         {name: '2020 年鐵人賽文章'},
