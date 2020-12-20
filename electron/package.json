@@ -9,9 +9,8 @@
     "electron-build": "electron-builder --win --x64"
   },
   "build": {
-    "appId": "com.ezoom.app.thaitown.tool",
+    "appId": "andrewdeveloper.tw.clouddrive.tool",
     "productName": "取餐/出餐系統管理器",
-    "afterPack": "./myAfterPackHook.js",
     "directories": {
       "output": "build"
     },

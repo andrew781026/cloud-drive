@@ -31,3 +31,7 @@
 
 - [Using Tailwind CSS with Vue.js](https://dev.to/lukeocodes/using-tailwind-css-with-vue-js-b1b)
 - [removing-unused-css](https://tailwindcss.com/docs/controlling-file-size#removing-unused-css)
+
+### 也許可以使用 letsencrypt api 去建立 SSL cert
+
+- [acme-v02](https://acme-v02.api.letsencrypt.org/directory)

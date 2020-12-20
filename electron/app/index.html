@@ -2,36 +2,100 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta http-equiv="Content-Security-Policy"
-          content="style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'">
-    <title>取餐 / 出餐系統管理器</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>檔案伺服器</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="./css/style.css"/>
-    <link rel="stylesheet" type="text/css" href="./css/init-mask.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            background-color: #3e0fc1;
+            margin: 0;
+        }
+
+        .header {
+            background-color: #6af316;
+            display: flex;
+        }
+
+        .header .icon {
+
+            font-size: 30px;
+        }
+
+        .content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 90%;
+            flex-direction: column;
+        }
+
+        main img {
+            height: 300px;
+        }
+
+        .app-drag{
+            -webkit-app-region: drag
+        }
+
+    </style>
 </head>
 <body>
-<div id="app">
-    <app-title></app-title>
-    <init-mask v-if="loading"></init-mask>
-    <install-mask v-if="showInstallMask"></install-mask>
-    <div class="flex">
-        <install-btn v-if="!installed"
-                     @start="showInstallMask = true"
-                     @end="showInstallMask = false"
-                     @success="installed = true"></install-btn>
-        <root-folder></root-folder>
-    </div>
-    <hr/>
-    <need-install-warn v-show="!installed"></need-install-warn>
-    <container-panel v-show="installed"></container-panel>
+<div class="header">
+    <h1 class="app-drag flex-1 text-3xl p-2 font-bold">檔案伺服器</h1>
+    <ul class="flex">
+        <li class="hover:bg-gray-200 p-2" onclick="min()"><i class="fa fas fa-minus icon"></i></li>
+        <li class="hover:bg-gray-200 p-2" onclick="max()"><i class="fa fas fa-expand-alt icon"></i></li>
+        <li class="hover:bg-gray-200 p-2" onclick="unmax()"><i class="fa fas fa-compress-alt icon"></i></li>
+        <li class="hover:bg-gray-200 p-2" onclick="exit()"><i class="fa fas fa-times icon"></i></li>
+    </ul>
 </div>
+<main class="content">
+    <img src="imgs/folder.svg" onclick="openDialog()">
+    <span id="picked-path" class="text-3xl p-2 font-bold">D:\test\cloud-drive</span>
+</main>
+<script>
 
-<script src="js/vue.min.js"></script>
+    function exit() {
 
-<!--This sets the baseUrl to the "scripts" directory, and
-    loads a script that will have a module ID of 'main'-->
-<script data-main="js/main.js" src="js/require.min.js"></script>
+        window.ipcRenderer.send('andrew:exit')
+    }
+
+    function min() {
+
+        window.ipcRenderer.send('andrew:minimize')
+    }
+
+    function max() {
+
+        window.ipcRenderer.send('andrew:maximize')
+    }
+
+    function openDialog() {
+
+        window.ipcRenderer.send('andrew:open-dialog')
+    }
+
+    function unmax() {
+
+        window.ipcRenderer.send('andrew:unmaximize')
+    }
+
+    // get the picked file
+    window.ipcRenderer.on('andrew:get-pick-file', (event, args) => {
+
+        document.querySelector('#picked-path').innerHTML = args;
+    })
+
+</script>
 </body>
 </html>
