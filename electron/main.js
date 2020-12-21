@@ -3,6 +3,7 @@ const {app, ipcMain, dialog, BrowserWindow} = require('electron');
 const path = require('path');
 const log4js = require('log4js');
 const logger = log4js.getLogger();
+const FileService =  require('./api/file');
 require('./log4js').initLog4js({log4js});
 
 require('electron-reload')(`${__dirname}/app`);
@@ -62,6 +63,7 @@ ipcMain.on('andrew:open-dialog', (event) => {
         if (!result.canceled) {
 
             event.reply('andrew:get-pick-file',result.filePaths[0])
+            FileService.setRootPath(result.filePaths[0])
         }
 
         // console.log(result.canceled)

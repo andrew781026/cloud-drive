@@ -1,8 +1,8 @@
 {
-  "name": "thaitown-call-system-tool",
-  "version": "1.1.4",
+  "name": "http-file-server-tool",
+  "version": "0.0.1",
   "author": "andrew",
-  "description": "the manage tool for thaitown-call-system",
+  "description": "the manage tool for http-file-server",
   "main": "./main.js",
   "scripts": {
     "electron-open": "electron ./main.js",
@@ -10,7 +10,7 @@
   },
   "build": {
     "appId": "andrewdeveloper.tw.clouddrive.tool",
-    "productName": "取餐/出餐系統管理器",
+    "productName": "檔案伺服器",
     "directories": {
       "output": "build"
     },
@@ -21,10 +21,7 @@
   "dependencies": {
     "axios": "^0.20.0",
     "fs-extra": "^9.0.1",
-    "log4js": "^6.3.0",
-    "pm2": "^4.4.0",
-    "systeminformation": "^4.26.9",
-    "unzipper": "^0.10.11"
+    "log4js": "^6.3.0"
   },
   "devDependencies": {
     "electron": "9.0.4",

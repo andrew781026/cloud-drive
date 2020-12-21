@@ -35,3 +35,4 @@
 ### 也許可以使用 letsencrypt api 去建立 SSL cert
 
 - [acme-v02](https://acme-v02.api.letsencrypt.org/directory)
+- [certbot 手動模式](https://certbot.eff.org/docs/using.html#manual)
