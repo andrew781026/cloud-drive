@@ -5,13 +5,16 @@ import store from './store'
 
 import './assets/styles/index.css';
 
+// install material-icons
+import 'material-icons/iconfont/material-icons.css';
+
 // install element-ui
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import locale from 'element-ui/lib/locale/lang/zh-TW';
 Vue.use(ElementUI, {locale});
 
-// collapse 展开折叠
+// collapse 展開折疊
 import CollapseTransition from 'element-ui/lib/transitions/collapse-transition';
 Vue.component(CollapseTransition.name, CollapseTransition)
 
