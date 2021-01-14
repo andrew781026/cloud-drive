@@ -99,7 +99,7 @@ export default {
 
 .pb-root {
   margin-top: 20px;
-  max-width: calc(100vw - 400px);
+  max-width: 100vw;
   max-height: 250px;
   overflow-y: hidden;
 }

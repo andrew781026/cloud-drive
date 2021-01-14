@@ -3,14 +3,14 @@
         <div class="title">
             <img class="avatar" :src="require('@/assets/rufe.png')" alt="rufe">
             <span class="name">魯夫</span>
-            <button class="btn btn-blue font-700 mt-2 w-3/4 text-lg">
+              <button class="btn btn-blue font-700 mt-2 w-3/4 text-lg sm-hidden">
                 <i class="material-icons pr-2">cloud</i>
                 <span>我的雲端硬碟</span>
-            </button>
-            <button class="btn btn-green font-700 mt-4 w-3/4 text-lg">
+              </button>
+              <button class="btn btn-green font-700 mt-4 w-3/4 text-lg sm-hidden">
                 <i class="material-icons pr-2">cloud_upload</i>
                 <span>上傳檔案</span>
-            </button>
+              </button>
         </div>
         <div class="content py-4">
             <ul>
@@ -128,12 +128,10 @@
         @media (max-width: 759px) {
 
             border-radius: 0;
+
             min-width: 80px;
             width: 80px;
 
-            position: absolute;
-            left: 0;
-            top: 0;
             max-height: 100vh;
             overflow-y: auto;
             z-index: 10;
@@ -144,6 +142,15 @@
 
         }
 
+    }
+
+    .sm-hidden{
+
+      //小平板
+      @media (max-width: 759px) {
+
+        display: none;
+      }
     }
 
     .title {
@@ -159,6 +166,7 @@
         //小平板
         @media (max-width: 759px) {
 
+          height:100px;
             border-bottom: 1px solid #9DAEC0;
         }
     }
@@ -177,6 +185,10 @@
 
         //小平板
         @media (max-width: 759px) {
+
+          overflow-x: hidden;
+          min-height: calc(100vh - 100px);
+          max-height: calc(100vh - 100px);
 
             span {
                 display: none;
@@ -280,13 +292,6 @@
 
             display: none;
         }
-
-        /*
-        @media (max-height: 625px) {
-
-            display: none;
-        }
-         */
     }
 
     .text-blue {
