@@ -16,6 +16,7 @@
                :title="pinF.name"
                @click="toggleFolder(index)"
                :key="`pinnedFolder-${index}`"
+               @contextmenu.prevent="openMenu"
           >
             <i class="material-icons folder" :class="[ index === activeFolderIndex && 'active' ]">folder</i>
             <div class="folder-name" style="width: 140px">
@@ -30,18 +31,26 @@
 
 <script>
 import {collapse, toggleCollapse} from '@/compositions/usePinCollapse';
+import {openContext} from '@/compositions/useContextMenu';
 
 export default {
   name: "PinnedBlock",
   setup() {
 
-    return {collapse, toggleCollapse}
+    return {collapse, toggleCollapse, openContext}
   },
   methods: {
     toggleFolder(index) {
 
       this.activeFolderIndex = index;
     },
+    openMenu(event) {
+
+      this.openContext({
+        clientX: `${event.clientX}px`,
+        clientY: `${event.clientY}px`
+      });
+    }
   },
   data() {
 

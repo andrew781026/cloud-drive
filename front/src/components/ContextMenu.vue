@@ -1,58 +1,45 @@
 <template>
   <el-collapse-transition>
-    <el-card class="box-card fixed" :style="{left:clientX,top:clientY}" v-show="show">
-      <div slot="header" class="clearfix">
-        <span>卡片名称</span>
-        <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
-      </div>
+    <div class="box-card" :style="{left:contextMenu.clientX,top:contextMenu.clientY}" v-show="contextMenu.show">
       <div v-for="o in 4" :key="o" class="text item">
         {{ '列表内容 ' + o }}
       </div>
-    </el-card>
+    </div>
   </el-collapse-transition>
 </template>
 
 <script>
-import useContextMenu from '@/compositions/useContextMenu';
+import {contextMenu} from '@/compositions/useContextMenu';
 // 取得根目錄的相對位置 , 需要拆解路徑 , 然後顯示出來
 
 export default {
   name: "ContextMenu",
   setup() {
 
-    const {clientX, clientY, show} = useContextMenu()
-
     // we need to open context menu at clientX . clientY
-    return {clientX, clientY, show}
+    return {contextMenu}
   },
-  updated() {
-
-    console.log('this.clientX=', this.clientX);
-    console.log('this.clientY=', this.clientY);
-  }
 }
 </script>
 
-<style scoped>
-.text {
-  font-size: 14px;
-}
-
-.item {
-  margin-bottom: 18px;
-}
-
-.clearfix:before,
-.clearfix:after {
-  display: table;
-  content: "";
-}
-
-.clearfix:after {
-  clear: both
-}
+<style scoped lang="scss">
 
 .box-card {
-  width: 480px;
+  cursor: pointer;
+  background-color: white;
+  position: fixed;
+  border-radius: 4px;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .3);
+  z-index: 20;
+  padding: 10px 0 10px 0;
+
+  .item {
+    font-size: 1.25rem;
+    padding: 5px 12px 5px 12px;
+
+    &:hover {
+      background-color: #cad3d3;
+    }
+  }
 }
 </style>

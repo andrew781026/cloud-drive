@@ -1,6 +1,7 @@
 <template>
   <div class="root flex">
     <left_nav_bar/>
+    <ContextMenu/>
     <div class="flex flex-col w-full max-h-screen">
       <right_header/>
       <breadcrumb/>
@@ -26,13 +27,19 @@ import FolderBlock from "./layout/FolderBlock";
 import FileBlock from "./layout/FileBlock";
 import ListBlock from "./layout/ListBlock";
 import {mode} from '@/compositions/useMode';
+import ContextMenu from "@/components/ContextMenu";
+import {useContextClose} from '@/compositions/useContextMenu';
 
 export default {
   name: 'Home',
   setup() {
+
+    useContextClose();
+
     return {mode}
   },
   components: {
+    ContextMenu,
     'right_header': RightHeader,
     'left_nav_bar': LeftNavBar,
     'breadcrumb': Breadcrumb,
