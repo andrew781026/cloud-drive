@@ -25,9 +25,26 @@ export const useContextClose = () => {
     });
 }
 
+export const clearDefaultContext = () => {
+
+    const preventDef = e => e.preventDefault();
+
+    onMounted(() => {
+
+        window.addEventListener('contextmenu', preventDef);
+    });
+
+    onBeforeUnmount(() => {
+
+        window.removeEventListener('contextmenu', preventDef);
+    });
+}
+
 export const openContext = ({clientX, clientY}) => {
 
     contextMenu.clientX = clientX;
     contextMenu.clientY = clientY;
-    contextMenu.show = true;
+    contextMenu.show = false;
+
+    setTimeout(() => contextMenu.show = true, 300)
 }

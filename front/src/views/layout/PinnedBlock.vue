@@ -47,8 +47,8 @@ export default {
     openMenu(event) {
 
       this.openContext({
-        clientX: `${event.clientX}px`,
-        clientY: `${event.clientY}px`
+        clientX: event.clientX,
+        clientY: event.clientY
       });
     }
   },

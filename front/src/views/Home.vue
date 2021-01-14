@@ -28,13 +28,14 @@ import FileBlock from "./layout/FileBlock";
 import ListBlock from "./layout/ListBlock";
 import {mode} from '@/compositions/useMode';
 import ContextMenu from "@/components/ContextMenu";
-import {useContextClose} from '@/compositions/useContextMenu';
+import {useContextClose, clearDefaultContext} from '@/compositions/useContextMenu';
 
 export default {
   name: 'Home',
   setup() {
 
     useContextClose();
+    clearDefaultContext();
 
     return {mode}
   },
